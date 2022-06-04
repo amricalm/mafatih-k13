@@ -1,0 +1,64 @@
+1. 	bp_mpelanggaran
+2. 	bp_pelanggaran
+3. 	bp_prestasi
+4. 	bp_prestasi_siswa
+5. 	bp_tkonseling
+6. 	bp_tpelanggaran
+7. 	bp_tpelanggaran_siswa
+8. 	bp_tstudi_kasus
+
+9. 	ms_eskul---
+10.	ms_karyawan----------
+11.	ms_kelas--------
+12.	ms_mp------------
+13. 	ms_mp_kd (id_sk diset auto increment)
+14. 	ms_mp_kd_dtl----------
+15. 	ms_mp_kd_idr---------
+16.	ms_mp_kelas
+17.	ms_sekolah---------
+18.	ms_siswa(tambah kolom "wali_hubungan")
+19.	nl_comment
+20.	nl_ips
+21.	nl_karyatulis
+22. 	nl_kks
+23.	nl_kpa
+24.	ref_pribadi
+25.	nl_pribadi
+26.	rf_jenis_nilai
+27.	rf_subpnl
+28.	rf_sikap_indikator
+29.	rf_jurusan
+30.	siswa_absen-----------
+31.	tgh
+32.	tgh_siswa
+33. 	th_ajar------------ 
+34. 	kelas_siswa (p_nl)
+
+
+
+LEDGER UTS
+RUMUS = EVR HANYA DARI YANG ADA NILAINYA(sudah disesuaikan)
+
+06/12/2012
+melengkapi profi siswa
+    controller siswa + function fropilelengkap_pdf()
+    view->cetak + file siswa_lengkap.php
+
+import nilai
+    controller + exel.php
+    models->task_model.php + functions simpanexcel()
+    view + folder layout + index.php
+    helpers + excel_reader2.php
+    
+18/12/2012
+sekuriti
+    controller + sekuriti.php
+    models + sekuriti_model.php
+    view + sekutiti
+    db + ms_user
+         sc_group
+         sc_group_data
+         
+26/12/2012
+nl_eskul  = kd_eskul (varchar 5)
+    

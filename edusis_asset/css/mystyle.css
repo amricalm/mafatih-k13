@@ -1,0 +1,325 @@
+/* WRITE YOUR CSS CODE HERE */
+/*body {
+	font: normal .8em/1.5em Arial, Helvetica, sans-serif;
+	background: #ebebeb;
+	width: 900px;
+	margin: 100px auto;
+	color: #666;
+}*/
+ 
+#main_popup {}
+        
+a {
+	color: #333;
+}
+#nav {
+	margin: 0;
+	padding: 7px 6px 0;
+	background: blue url(../edusisimg/gradient.png) repeat-x 0 -110px;
+	line-height: 100%;
+
+	/*border-radius: 2em;
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0, .4);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0, .4);*/
+}
+#nav li {
+	margin: 0 5px;
+	padding: 0 0 8px;
+	float: left;
+	position: relative;
+	list-style: none;
+    z-index:99;
+}
+
+/* main level link */
+#nav a {
+	font-weight: bold;
+	color: #e7e5e5;
+	text-decoration: none;
+	display: block;
+	padding:  8px 20px;
+	margin: 0;
+
+	-webkit-border-radius: 0.6em;
+	-moz-border-radius: 0.6em;
+	
+	text-shadow: 0 1px 1px rgba(0,0,0, .3);
+}
+#nav a:hover {
+	background: #000;
+	color: #fff;
+}
+
+/* main level link hover */
+#nav .current a, #nav li:hover > a {
+	background: lightblue url(../edusisimg/gradient.3.png) repeat-x 0 -40px;
+	color: #000;
+	border-top: solid 1px #f8f8f8;
+
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0, .2);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0, .2);
+	box-shadow: 0 1px 1px rgba(0,0,0, .2);
+
+	text-shadow: 0 1px 0 rgba(255,255,255, 1);
+}
+
+/* sub levels link hover */
+#nav ul li:hover a, #nav li:hover li a {
+	background: none;
+	border: none;
+	color: #e3e5fd;
+
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+#nav ul a:hover {
+	background: lightblue url(../edusisimg/gradient.3.png) repeat-x 0 -100px !important;
+	color: #444 !important;
+
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+
+	text-shadow: 0 1px 1px rgba(0,0,0, .1);
+}
+
+/* dropdown */
+#nav li:hover > ul {
+	display: block;
+}
+
+/* level 2 list */
+#nav ul {
+	display: none;
+
+	margin: 0;
+	padding: 0;
+	width: 185px;
+	position: absolute;
+	top: 35px;
+	left: 0;
+	background: blue /*url(../edusisimg/gradient.png)*/ repeat-x 0 0;
+	border: solid 1px #0088ff;
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+	box-shadow: 0 1px 3px rgba(0,0,0, .3);
+}
+#nav ul li {
+	float: none;
+	margin: 0;
+	padding: 0;
+}
+
+#nav ul a {
+	font-weight: normal;
+	text-shadow: 0 1px 0 #fff;
+}
+
+/* level 3+ list */
+#nav ul ul {
+	left: 181px;
+	top: -3px;
+}
+
+/* rounded corners of first and last link */
+#nav ul li:first-child > a {
+	-webkit-border-top-left-radius: 9px;
+	-moz-border-radius-topleft: 9px;
+
+	-webkit-border-top-right-radius: 9px;
+	-moz-border-radius-topright: 9px;
+}
+#nav ul li:last-child > a {
+	-webkit-border-bottom-left-radius: 9px;
+	-moz-border-radius-bottomleft: 9px;
+
+	-webkit-border-bottom-right-radius: 9px;
+	-moz-border-radius-bottomright: 9px;
+}
+
+/* clearfix */
+#nav:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+#nav {
+	display: inline-block;
+} 
+html[xmlns] #nav {
+	display: block;
+}
+ 
+* html #nav {
+	height: 1%;
+}	
+
+input[type=text],input[type=password]
+{
+    width : 300px;
+    padding : 5px;
+}
+input[type=teks]
+{
+    width : 100px;
+    padding : 5px; 
+}
+select
+{
+    width : 300px;
+    padding : 5px;
+}
+
+textarea
+{
+    width : 300px;
+    padding : 5px;
+    height:50px;    
+}
+
+#content table th.kuning,td.kuning{
+    background-color : #fff4cc;
+    border-right:1px solid #0074B3;
+    color:#000;
+}
+#content table th.orange,td.orange{
+    background-color : #fbd3b1;
+    border-right:1px solid #0074B3;
+    color:#000;
+}
+#content table th.biru,td.biru{
+    background-color : #e4edf5;
+    border-right:1px solid #0074B3;
+    color:#000;
+}
+#content table th.ijo,td.ijo{
+    background-color : #e0f2cb;  
+    border-right:1px solid #0074B3; 
+    color:#000;  
+}
+
+ul{border:0; margin:0; padding:0;}
+
+#mypagination li
+{
+    border:0; margin:0; padding:0;
+    font-size:11px;
+    list-style:none;
+}
+/*#mypagination li,*/ #mypagination a
+{
+    border:solid 1px #DEDEDE;
+    margin-right:2px;
+}
+#mypagination .active
+{
+    color:red;
+    font-weight:bold;
+    display:block;
+    float:left;
+    padding:3px 4px;
+    border:solid 1px #DEDEDE;
+    margin-right:2px;
+}
+#mypagination a:link,
+#mypagination a:visited 
+{
+    color:#0033CC;
+    display:block;
+    float:left;
+    padding:3px 6px;
+    text-decoration:none;
+}
+#mypagination a:hover
+{
+    text-decoration:none;
+}
+
+/*  ACTIONS BOX ----------------------------------------------- */	
+#actions-box	{
+    float: left;
+    margin: 0 0 0 0;
+    position: relative;
+    z-index : 99;
+}
+a.action-slider	{
+    background: url(../edusisimg/dropdown_actions.gif) no-repeat;
+    display: block;
+    height: 30px;
+    width: 38px;
+}
+a.action-slider.activated	{
+    background: url(../edusisimg/dropdown_actions.gif) no-repeat 0 -30px;
+    display: block;
+    height: 30px;
+    width: 38px;
+}
+#actions-box-slider	{
+    background: url(../edusisimg/actions_slider_bg.gif) bottom no-repeat;
+    display: none;
+    left: -1px;
+    padding-bottom: 1px;
+    padding-top: 10px;
+    position: absolute;
+    top: 24px;
+    width: 40px;
+    z-index:99;
+}
+#actions-box-slider a{
+    margin-left:-5px;
+}
+#actions-box-slider-inner	{
+    font-size: 0px;
+    line-height: 0;
+    margin: 0px 0 0 0;
+    width: 20px;
+    z-index:0;
+}
+a.action-add ,
+a.action-edit ,
+a.action-delete	{
+    color: #272727;
+    display: block;
+    font-weight: bold;
+    height: 20px;
+    padding: 10px 2px 2px 2px;
+    width: 35px;
+    margin-left : -10px;
+    padding-right: 15px;
+}
+a:hover.action-add	{
+    background: #949494 url(../edusisimg/action_add.gif) no-repeat 14px 5px;
+    color: #fff;
+}
+a.action-add	{
+    background: #c7c7c7 url(../edusisimg/action_add.gif) no-repeat 14px 5px;
+}
+a:hover.action-edit	{
+    background: #949494 url(../edusisimg/action_edit.gif) no-repeat 14px 5px;
+    color: #fff;
+}
+a.action-edit	{
+    background: #c7c7c7 url(../edusisimg/action_edit.gif) no-repeat 14px 5px;
+}
+a.action-delete	{
+    background: #c7c7c7 url(../edusisimg/action_delete.gif) no-repeat 14px 5px;
+}
+a:hover.action-delete	{
+    background: #949494 url(../edusisimg/action_delete.gif) no-repeat 14px 5px;
+    color: #fff;
+}
+
+
+#content table tfoot {border-right:1px solid #0074B3; background-color:#0088ff; color:#fff;}
+/*#content table th {font:0.75em/1.4 "arial", sans-serif;font-weight:bold;}
+#content table td {font:0.75em/1.4 "arial", sans-serif;}*/
