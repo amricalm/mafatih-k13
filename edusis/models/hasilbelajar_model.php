@@ -4684,7 +4684,7 @@ class Hasilbelajar_model extends CI_Model
         $nis            = $data['pilihnis'];
         $kd_mp          = $data['kd_mp'];
         $kd_kd          = $data['kd_kd'];
-        $sql            = " SELECT kd_mp, kd_kd, AVG(kgn) AS nh
+        $sql            = " SELECT kd_mp, kd_kd, ROUND(AVG(kgn)) AS nh
                             FROM tgh_siswa 
                             WHERE kd_sekolah = '$kd_sekolah'
                             AND th_ajar = '$th_ajar' 
@@ -4695,6 +4695,34 @@ class Hasilbelajar_model extends CI_Model
                             AND nis = '$nis' 
                             AND kelas = '$kelas'
                             AND kd_mp = '$kd_mp'
+                            GROUP BY kd_mp";
+        // echo $sql; die();
+        $hasil      = $this->db->query($sql);
+        return $hasil;
+    }
+
+    function getKinperKDMP($data)
+    {
+        $CI             = &get_instance();
+        $kd_sekolah     = $CI->session->userdata('kd_sekolah');
+        $th_ajar        = $CI->session->userdata('th_ajar');
+        $p_nl           = $CI->session->userdata('kd_semester');
+        $sub_pnl        = $CI->session->userdata('sub_pnl');
+        $kelas          = $data['pilihkelas'];
+        $nis            = $data['pilihnis'];
+        $kd_mp          = $data['kd_mp'];
+        $kd_kd          = $data['kd_kd'];
+        $sql            = " SELECT kd_mp, kd_kd, ROUND(AVG(psk)) AS kin
+                            FROM tgh_siswa 
+                            WHERE (kd_sekolah = '$kd_sekolah'
+                            AND th_ajar = '$th_ajar' 
+                            AND p_nl = $p_nl
+                            AND sub_pnl ='$sub_pnl'
+                            AND kd_kd = '$kd_kd' 
+                            AND nis = '$nis' 
+                            AND kelas = '$kelas'
+                            AND kd_mp = '$kd_mp')
+                            AND (kd_tagihan LIKE 'KIN%' OR kd_tagihan LIKE 'PRJ%' OR kd_tagihan LIKE 'POR%')
                             GROUP BY kd_mp";
         // echo $sql; die();
         $hasil      = $this->db->query($sql);
@@ -4712,7 +4740,7 @@ class Hasilbelajar_model extends CI_Model
         $nis            = $data['pilihnis'];
         $kd_mp          = $data['kd_mp'];
         $kd_kd          = $data['kd_kd'];
-        $sql            = " SELECT kd_mp, AVG(kgn) AS pas_kgn, AVG(psk) AS pas_psk
+        $sql            = " SELECT kd_mp, ROUND(AVG(kgn)) AS pas_kgn, ROUND(AVG(psk)) AS pas_psk, ROUND(AVG(psk)) AS pas_psk
                             FROM tgh_siswa 
                             WHERE kd_sekolah = '$kd_sekolah'
                             AND th_ajar = '$th_ajar' 
@@ -4723,6 +4751,49 @@ class Hasilbelajar_model extends CI_Model
                             AND nis = '$nis' 
                             AND kelas = '$kelas'
                             AND kd_mp = '$kd_mp'";
+        // echo $sql; die();
+        $hasil      = $this->db->query($sql);
+        return $hasil;
+    }
+
+    function getSprperKDMP($data)
+    {
+        $CI             = &get_instance();
+        $kd_sekolah     = $CI->session->userdata('kd_sekolah');
+        $th_ajar        = $CI->session->userdata('th_ajar');
+        $p_nl           = $CI->session->userdata('kd_semester');
+        $sub_pnl        = $CI->session->userdata('sub_pnl');
+        $kelas          = $data['pilihkelas'];
+        $nis            = $data['pilihnis'];
+        $kd_mp          = $data['kdMpPsk'];
+        $kd_tagihan     = $data['kdTghPsk'];
+        $kdKiPsk        = $data['kdKiPsk'];
+        
+        $sql            = " SELECT ms.kd_mp, ms.kd_kd, ms.afk, dtl.ket_kd
+                            FROM tgh_siswa ms
+                            
+                            RIGHT JOIN ms_kelas kls
+                            ON ms.kd_sekolah = kls.kd_sekolah
+                            AND ms.kelas = kls.kelas
+                            
+                            INNER JOIN ms_mp_kd_dtl dtl
+                            ON ms.kd_sekolah = dtl.`kd_sekolah`
+                            AND ms.th_ajar = dtl.th_ajar
+                            AND ms.p_nl = dtl.kd_semester
+                            AND ms.kd_mp = dtl.kd_mp
+                            AND ms.kd_kd = dtl.kd_kd
+                            AND kls.tingkat = dtl.tk
+                            
+                            WHERE (ms.kd_sekolah = '$kd_sekolah' 
+                            AND ms.th_ajar = '$th_ajar' 
+                            AND ms.p_nl = $p_nl 
+                            AND ms.sub_pnl = '$sub_pnl'
+                            AND ms.kd_tagihan = '$kd_tagihan'
+                            AND ms.nis = '$nis' 
+                            AND ms.kelas = '$kelas'
+                            AND ms.kd_mp = '$kd_mp')
+                            AND (dtl.kd_ki = '$kdKiPsk' OR dtl.kd_ki = UPPER('$kdKiPsk'))
+                            ";
         // echo $sql; die();
         $hasil      = $this->db->query($sql);
         return $hasil;
@@ -4806,7 +4877,7 @@ class Hasilbelajar_model extends CI_Model
         $db['nis']            = $data['pilihnis'];
         $db['kd_mp']          = $data['kd_mp'];
         $db['kgn']            = $data['kgn'];
-        $db['deskripsi_kgn']  = '';//$data['deskripsi_kgn'];
+        $db['deskripsi_kgn']  = $data['deskripsi_kgn'];
         return $this->db->insert('nl_ips',$db);
     }
 
@@ -4820,7 +4891,12 @@ class Hasilbelajar_model extends CI_Model
         $db['kelas']          = $data['pilihkelas'];
         $db['nis']            = $data['pilihnis'];
         $db['kd_mp']          = $data['kd_mp'];
-        $db['deskripsi_kgn']  = '';//$data['deskripsi_kgn'];
+
+        //update data
+        $dbdata = array(
+          'kgn' => $data['kgn'],
+          'deskripsi_kgn' => $data['deskripsi_kgn']
+        ); 
 
         $this->db->where('kd_sekolah',$db['kd_sekolah']);
         $this->db->where('th_ajar',$db['th_ajar']);
@@ -4830,8 +4906,106 @@ class Hasilbelajar_model extends CI_Model
         $this->db->where('nis',$db['nis']);
         $this->db->where('kd_mp',$db['kd_mp']);
 
-        $this->db->set('kgn',$data['kgn']);
-        return $this->db->update('nl_ips');
+        return $this->db->update('nl_ips', $dbdata);
+    }
+
+    function simpanNilaiRaportPsk($data)
+    {
+        $CI                   = &get_instance();
+        $db['kd_sekolah']     = $CI->session->userdata('kd_sekolah');
+        $db['th_ajar']        = $CI->session->userdata('th_ajar');
+        $db['p_nl']           = $CI->session->userdata('kd_semester');
+        $db['sub_pnl']        = $CI->session->userdata('sub_pnl');
+        $db['kelas']          = $data['pilihkelas'];
+        $db['nis']            = $data['pilihnis'];
+        $db['kd_mp']          = $data['kd_mp'];
+        $db['psk']            = $data['psk'];
+        $db['deskripsi_psk']  = $data['deskripsi_psk'];
+        return $this->db->insert('nl_ips',$db);
+    }
+
+    function updateNilaiRaportPsk($data)
+    {
+        $CI                   = &get_instance();
+        $db['kd_sekolah']     = $CI->session->userdata('kd_sekolah');
+        $db['th_ajar']        = $CI->session->userdata('th_ajar');
+        $db['p_nl']           = $CI->session->userdata('kd_semester');
+        $db['sub_pnl']        = $CI->session->userdata('sub_pnl');
+        $db['kelas']          = $data['pilihkelas'];
+        $db['nis']            = $data['pilihnis'];
+        $db['kd_mp']          = $data['kd_mp'];
+
+        //update data
+        $dbdata = array(
+          'psk' => $data['psk'],
+          'deskripsi_psk' => $data['deskripsi_psk']
+        ); 
+
+        $this->db->where('kd_sekolah',$db['kd_sekolah']);
+        $this->db->where('th_ajar',$db['th_ajar']);
+        $this->db->where('p_nl',$db['p_nl']);
+        $this->db->where('sub_pnl',$db['sub_pnl']);
+        $this->db->where('kelas',$db['kelas']);
+        $this->db->where('nis',$db['nis']);
+        $this->db->where('kd_mp',$db['kd_mp']);
+
+        return $this->db->update('nl_ips', $dbdata);
+    }
+
+    function simpanNilaiRaportAfk($data)
+    {
+        $CI                   = &get_instance();
+        $db['kd_sekolah']     = $CI->session->userdata('kd_sekolah');
+        $db['th_ajar']        = $CI->session->userdata('th_ajar');
+        $db['p_nl']           = $CI->session->userdata('kd_semester');
+        $db['sub_pnl']        = $CI->session->userdata('sub_pnl');
+        $db['kelas']          = $data['pilihkelas'];
+        $db['nis']            = $data['pilihnis'];
+        $db['kd_mp']          = $data['kdMpPsk'];
+        if($db['kd_mp'] == 'PAI') {
+          $db['afk_spiritual']  = $data['afk'];
+          $db['deskripsi_afk_spiritual']  = $data['deskripsi_afk'];
+        } elseif($db['kd_mp'] == 'PKN') {
+          $db['afk']  = $data['afk'];
+          $db['deskripsi_afk']  = $data['deskripsi_afk'];
+        }
+
+        return $this->db->insert('nl_ips',$db);
+    }
+
+    function updateNilaiRaportAfk($data)
+    {
+        $CI                   = &get_instance();
+        $db['kd_sekolah']     = $CI->session->userdata('kd_sekolah');
+        $db['th_ajar']        = $CI->session->userdata('th_ajar');
+        $db['p_nl']           = $CI->session->userdata('kd_semester');
+        $db['sub_pnl']        = $CI->session->userdata('sub_pnl');
+        $db['kelas']          = $data['pilihkelas'];
+        $db['nis']            = $data['pilihnis'];
+        $db['kd_mp']          = $data['kdMpPsk'];
+
+        //update data
+        if($db['kd_mp'] == 'PAI') {
+          $dbdata = array(
+            'afk_spiritual' => $data['afk'],
+            'deskripsi_afk_spiritual' => $data['deskripsi_afk']
+          ); 
+        } elseif($db['kd_mp'] == 'PKN') {
+          $dbdata = array(
+            'afk' => $data['afk'],
+            'deskripsi_afk' => $data['deskripsi_afk']
+          ); 
+        }
+        
+        $this->db->where('kd_sekolah',$db['kd_sekolah']);
+        $this->db->where('th_ajar',$db['th_ajar']);
+        $this->db->where('p_nl',$db['p_nl']);
+        $this->db->where('sub_pnl',$db['sub_pnl']);
+        $this->db->where('kelas',$db['kelas']);
+        $this->db->where('nis',$db['nis']);
+        $this->db->where('kd_mp',$db['kd_mp']);
+
+        return $this->db->update('nl_ips', $dbdata);
     }
 
     function getNilaiRapot($data)
@@ -4842,7 +5016,7 @@ class Hasilbelajar_model extends CI_Model
       $p_nl           = $CI->session->userdata('kd_semester');
       $kelas          = $data['pilihkelas'];
       $nis            = $data['pilihnis'];
-      $sql =   " SELECT nm_mp, ips.kgn, ips.psk,ips.afk, urutan FROM nl_ips ips
+      $sql =   " SELECT nm_mp, ips.kgn, ips.psk, ips.afk, deskripsi_kgn, deskripsi_psk, deskripsi_afk, deskripsi_afk_spiritual, urutan FROM nl_ips ips
                   LEFT JOIN ms_mp mp
                   ON ips.kd_mp = mp.kd_mp
                   where ips.kd_sekolah = '$kd_sekolah'

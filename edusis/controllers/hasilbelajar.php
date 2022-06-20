@@ -3259,9 +3259,10 @@ class Hasilbelajar extends CI_Controller
         //$data['beratbadan']     = (!empty($filter_bb)) ? array_column($filter_bb, 'hasil', 'p_nl') : '';
 
 
-        //nilai
+        //=========== nilai kgn =============================================================
         $kdperKI    = $this->kompetensi_model->getKompetensiDasarPerTingkat($data);
         $nilaiNH = array();
+        $nilaiKin = array();
         foreach ($kdperKI->result() as $kd) {
             $data['kd_mp'] = $kd->kd_mp;
             $data['kd_ki'] = $kd->kd_ki;
@@ -3272,11 +3273,19 @@ class Hasilbelajar extends CI_Controller
                 $nilai['nh']   = $nhKDMP[0]->nh;
                 
                 $nilaiNH[$nilai['kd_mp']][] = $nhKDMP[0];
-                // print_r($nilai['kd_mp'].' - '.$nhKDMP[0]->kd_kd.' - '.$nilai['nh']); 
+            } 
+            elseif($data['kd_ki'] == "ki4" || $data['kd_ki'] == "KI4") {
+                $nhKDMP   = $this->hasilbelajar_model->getKinperKDMP($data)->result();
+                $nilai['kd_mp'] = $nhKDMP[0]->kd_mp;
+                $nilai['kin']   = $nhKDMP[0]->kin;
+                
+                $nilaiKin[$nilai['kd_mp']][] = $nhKDMP[0];
             }
         }
-
-
+        
+        //=========== nilai KGN =============================================================
+        //End KI 3 --------------------------------
+        //KI 3 --------------------------------
         $naKdPerMp = array();
         foreach ($nilaiNH as $rows) {
             for ($i=0; $i < count($rows); $i++) {
@@ -3287,88 +3296,88 @@ class Hasilbelajar extends CI_Controller
                 //Get Nilai UAS per KD
                 $pasKDMP   = $this->hasilbelajar_model->getPASperKDMP($data)->result();
 
-                //Rumus Nilai Raport
+                //Rumus Nilai Raport Pengetahuan
                 $naPerKd = round(((2 * $data['nh']) + $pasKDMP[0]->pas_kgn) / 3);
                 $naKdPerMp[$data['kd_mp']][$data['kd_kd']] = $naPerKd;
             }
         }
-
+        //End KI 3 --------------------------------
+        //KI 3 --------------------------------
         //Nilai NH Rata-rata
         $na = array();
         $nlKdArr = array();
         foreach ($naKdPerMp as $mp=>$nlKd) {
-            $na[$mp] = array_sum($nlKd) / count($naKdPerMp[$mp]);
+            $na[$mp] = round(array_sum($nlKd) / count($naKdPerMp[$mp]));
             $nlKdArr[$mp] = $nlKd;
         }
-        
-
+        //End KI 3 --------------------------------
+        //KI 3 --------------------------------
+        $k = 0;
         foreach($na as $keyMp=>$valNa) {
-            $data['kd_mp_rpt']  = $keyMp;
-
             //Deskripsi
-            // foreach($nlKdArr as $keyKd=>$nlKd) {
-            //     //get kkm
-            //     $getKkmMp   = $this->hasilbelajar_model->getKkmMp($data)->row();
-            //     $getKkm    = $getKkmMp->skbm;
+            $ketKgn = '';
+            for($l=0; $l < count($nlKdArr[$keyMp]); $l++) {
+                //get kkm
+                $data['kd_mp_rpt']  = $keyMp;
+                $getKkmMp  = $this->hasilbelajar_model->getKkmMp($data)->row();
+                $getKkm    = isset($getKkmMp->skbm) ? $getKkmMp->skbm : 0;
 
-            //     //ambil nilai maksimal
-            //     $nlValMax = max($nlKd);
-            //     $nlValMin = min($nlKd);
-            //     // print_r($nlKd); die();
+                //ambil nilai maksimal
+                $nlValMax = max($nlKdArr[$keyMp]);
+                $nlValMin = min($nlKdArr[$keyMp]);
 
-            //     //bandingkan nilai maksimal dengan kkm
-            //     $nlMax = 0;
-            //     $nlMin = 0;
-            //     if($nlValMax >= $getKkm) {
-            //         //cari KD yang sesuai dengan nilai maksimal
-            //         $nlMax = array_keys($nlKd, max($nlKd));
+                //bandingkan nilai maksimal dengan kkm
+                $nlMax = 0;
+                if($nlValMax >= $getKkm) {
+                    //cari KD yang sesuai dengan nilai maksimal
+                    $nlMax = array_keys($nlKdArr[$keyMp], max($nlKdArr[$keyMp]));
 
-            //         //cari deskripsi maksimal
-            //         $ketKdMaxArr = array();
-            //         for ($i=0; $i < count($nlMax); $i++) {
-            //             $data['kd_ki']      = 'ki3';
-            //             $data['kd_max_min'] = $nlMax[$i];
+                    //cari deskripsi maksimal
+                    $ketKdMaxArr = array();
+                    for ($i=0; $i < count($nlMax); $i++) {
+                        $data['kd_ki']      = 'ki3';
+                        $data['kd_max_min'] = $nlMax[$i];
 
-            //             $getDeskripsi    = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
-            //             $ketKdMaxArr[]   = $getDeskripsi->ket_kd;
-            //         }
-            //         $ketKdMax = implode(', ',$ketKdMaxArr);
-            //     }
+                        $getDeskripsi    = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
+                        $ketKdMaxArr[]   = $getDeskripsi->ket_kd;
+                    }
+                    $ketKdMax = implode(', ',$ketKdMaxArr);
+                }
 
-            //     if($nlValMin < $getKkm) {
-            //         // print_r($data['kd_mp_rpt'].' '.$nlValMin.' < '.$getKkm); die();
-            //         //cari KD yang sesuai dengan nilai minimal
-            //         $nlMin = array_keys($nlKd, min($nlKd));
+                //bandingkan nilai minimal dengan kkm
+                $nlMin = 0;
+                if($nlValMin < $getKkm && $getKkm!=0) {
+                    //cari KD yang sesuai dengan nilai minimal
+                    $nlMin = array_keys($nlKdArr[$keyMp], min($nlKdArr[$keyMp]));
 
-            //         //cari deskripsi minimal
-            //         $ketKdMinArr = array();
-            //         for ($i=0; $i < count($nlMin); $i++) {
-            //             $data['kd_ki'] = 'ki3';
-            //             $data['kd_max_min'] = $nlMin[$i];
+                    //cari deskripsi minimal
+                    $ketKdMinArr = array();
+                    for ($s=0; $s < count($nlMin); $s++) {
+                        $data['kd_ki'] = 'ki3';
+                        $data['kd_max_min'] = $nlMin[$s];
 
-            //             $getDeskripsi   = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
-            //             $ketKdMinArr[]  = $getDeskripsi->ket_kd;
-            //         }
-            //         $ketKdMin = implode(', ',$ketKdMinArr);
-            //     }
-
-            //     //Susun deskripsi
-            //     if($nlMax!=0 && $nlMin!=0) {
-            //         $ketKgn = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam'.$ketKdMin;
-            //     } elseif($nlMax!=0 && $nlMin==0) {
-            //         $ketKgn = 'Ananda mampu '.$ketKdMax;
-            //     } elseif($nlMax==0 && $nlMin!=0) {
-            //         $ketKgn = 'perlu pembinaan dalam'.$ketKdMin;
-            //     } else {
-            //         $ketKgn = '';
-            //     }
-            // }
+                        $getDeskripsi   = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
+                        $ketKdMinArr[]  = $getDeskripsi->ket_kd;
+                    }
+                    $ketKdMin = implode(', ',$ketKdMinArr);
+                }
+                //Susun deskripsi
+                if($nlMax!=0 && $nlMin!=0) {
+                    $ketKgn = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam'.$ketKdMin;
+                } elseif($nlMax!=0 && $nlMin==0) {
+                    $ketKgn = 'Ananda mampu '.$ketKdMax;
+                } elseif($nlMax==0 && $nlMin!=0) {
+                    $ketKgn = 'perlu pembinaan dalam'.$ketKdMin;
+                } else {
+                    $ketKgn = '';
+                }
+            }
 
             //simpan nilai raport
             $data['kd_mp'] = $keyMp;
             $data['kgn']   = $valNa;
-            // $data['deskripsi_kgn']   = $ketKgn;
-
+            $data['deskripsi_kgn']   = $ketKgn;
+            
             $sdata = $this->hasilbelajar_model->dapat($data);              
             if($sdata->num_rows() > 0)
             {
@@ -3378,12 +3387,179 @@ class Hasilbelajar extends CI_Controller
             {
                     $this->hasilbelajar_model->simpanNilaiRaport($data);
             }
+
+            $k++;
+        }
+        //End KI 3 --------------------------------
+        //=========== End nilai KGN =============================================================
+
+
+        //=========== nilai PSK =============================================================
+        //KI 4--------------------------
+        $naKdPerMpPsk = array();
+        foreach ($nilaiKin as $rows) {
+            for ($i=0; $i < count($rows); $i++) {
+                $data['kd_mp'] = $rows[$i]->kd_mp;
+                $data['kd_kd'] = $rows[$i]->kd_kd;
+                $data['kin'] = $rows[$i]->kin;
+
+                //Get Nilai UAS per KD
+                $pasKDMP   = $this->hasilbelajar_model->getPASperKDMP($data)->result();
+
+                //Rumus Nilai Raport Keterampilan
+                $naPerKd = round(((2 * $data['kin']) + $pasKDMP[0]->pas_psk) / 3);
+                $naKdPerMpPsk[$data['kd_mp']][$data['kd_kd']] = $naPerKd;
+            }
+        }
+        //End KI 4--------------------------
+        //KI 4--------------------------
+        //Nilai NH Rata-rata
+        $naPsk = array();
+        $nlKdArrPsk = array();
+        foreach ($naKdPerMpPsk as $mp=>$nlKd) {
+            $naPsk[$mp] = round(array_sum($nlKd) / count($naKdPerMpPsk[$mp]));
+            $nlKdArrPsk[$mp] = $nlKd;
+        }
+        //End KI 4--------------------------
+        //KI 4--------------------------
+        foreach($naPsk as $keyMp=>$valNa) {
+            //Deskripsi
+            $ketPsk = '';
+            for($l=0; $l < count($nlKdArrPsk[$keyMp]); $l++) {
+                //get kkm
+                $data['kd_mp_rpt']  = $keyMp;
+                $getKkmMp  = $this->hasilbelajar_model->getKkmMp($data)->row();
+                $getKkm    = isset($getKkmMp->skbm) ? $getKkmMp->skbm : 0;
+
+                //ambil nilai maksimal
+                $nlValMax = max($nlKdArrPsk[$keyMp]);
+                $nlValMin = min($nlKdArrPsk[$keyMp]);
+
+                //bandingkan nilai maksimal dengan kkm
+                $nlMax = 0;
+                if($nlValMax >= $getKkm) {
+                    //cari KD yang sesuai dengan nilai maksimal
+                    $nlMax = array_keys($nlKdArrPsk[$keyMp], max($nlKdArrPsk[$keyMp]));
+
+                    //cari deskripsi maksimal
+                    $ketKdMaxArr = array();
+                    for ($i=0; $i < count($nlMax); $i++) {
+                        $data['kd_ki']      = 'ki4';
+                        $data['kd_max_min'] = $nlMax[$i];
+
+                        $getDeskripsi    = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
+                        $ketKdMaxArr[]   = $getDeskripsi->ket_kd;
+                    }
+                    $ketKdMax = implode(', ',$ketKdMaxArr);
+                }
+
+                //bandingkan nilai minimal dengan kkm
+                $nlMin = 0;
+                if($nlValMin < $getKkm && $getKkm!=0) {
+                    //cari KD yang sesuai dengan nilai minimal
+                    $nlMin = array_keys($nlKdArrPsk[$keyMp], min($nlKdArrPsk[$keyMp]));
+
+                    //cari deskripsi minimal
+                    $ketKdMinArr = array();
+                    for ($s=0; $s < count($nlMin); $s++) {
+                        $data['kd_ki'] = 'ki4';
+                        $data['kd_max_min'] = $nlMin[$s];
+
+                        $getDeskripsi   = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
+                        $ketKdMinArr[]  = $getDeskripsi->ket_kd;
+                    }
+                    $ketKdMin = implode(', ',$ketKdMinArr);
+                }
+                //Susun deskripsi
+                if($nlMax!=0 && $nlMin!=0) {
+                    $ketPsk = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam'.$ketKdMin;
+                } elseif($nlMax!=0 && $nlMin==0) {
+                    $ketPsk = 'Ananda mampu '.$ketKdMax;
+                } elseif($nlMax==0 && $nlMin!=0) {
+                    $ketPsk = 'perlu pembinaan dalam'.$ketKdMin;
+                } else {
+                    $ketPsk = '';
+                }
+            }
+
+            //simpan nilai raport
+            $data['kd_mp'] = $keyMp;
+            $data['psk']   = $valNa;
+            
+            $data['deskripsi_psk']   = $ketPsk;
+            
+            $sdata = $this->hasilbelajar_model->dapat($data);              
+            if($sdata->num_rows() > 0)
+            {
+                    $this->hasilbelajar_model->updateNilaiRaportPsk($data);
+            }
+            else
+            {
+                    $this->hasilbelajar_model->simpanNilaiRaportPsk($data);
+            }
+        }
+        //End KI 4 ----------------------------
+        //=========== End nilai PSK =============================================================
+
+
+        //=========== nilai AFK =============================================================
+        //KI 1 & 2--------------------------
+        $kdTghPsk = ['PAI'=>'SPR','PKN'=>'SOS'];
+        foreach($kdTghPsk as $keyTghPsk=>$valTghPsk) {
+            $data['kdMpPsk']  = $keyTghPsk;
+            $data['kdTghPsk'] = $valTghPsk;
+            if($keyTghPsk == 'PAI') {
+                $data['kdKiPsk'] = 'ki1';
+            } elseif($keyTghPsk == 'PKN') {
+                $data['kdKiPsk'] = 'ki2';
+            }
+            $getSpr   = $this->hasilbelajar_model->getSprperKDMP($data)->result();
+            
+            $n = 0;
+            $ketMaxArr = array();
+            $ketMinArr = array();
+            $nlAfkArr  = 0;
+            foreach($getSpr as $rows) {
+                $nlAfkArr += $rows->afk;
+                if($rows->afk >= 4) {
+                    $ketMaxArr[] = $rows->ket_kd;
+                } elseif($rows->afk > 0) {
+                    $ketMinArr[] = $rows->ket_kd;
+                }
+                $n++;
+            }
+            $data['afk'] = (!empty($nlAfkArr) && !empty($nlAfkArr)) ? $nlAfkArr / $n : '';
+
+            $ketMax = !empty($ketMaxArr) ? implode(', ',$ketMaxArr) : '';
+            $ketMin = !empty($ketMinArr) ? implode(', ',$ketMinArr) : '';
+
+            if($ketMax!='' && $ketMin!='') {
+                $data['deskripsi_afk'] = 'Ananda sudah terbiasa dalam'.$ketMax.'mulai terlihat dalam'.$ketMin;
+            }elseif($ketMax!='' && $ketMin=='') {
+                $data['deskripsi_afk'] = 'Ananda sudah terbiasa dalam'.$ketMax;
+            }elseif($ketMax=='' && $ketMin!='') {
+                $data['deskripsi_afk'] = 'Ananda mulai terlihat dalam'.$ketMin;
+            }elseif($ketMax=='' && $ketMin=='') {
+                $data['deskripsi_afk'] = '';
+            }
+
+            $sdata = $this->hasilbelajar_model->dapat($data);              
+            if($sdata->num_rows() > 0)
+            {
+                    $this->hasilbelajar_model->updateNilaiRaportAfk($data);
+            }
+            else
+            {
+                    $this->hasilbelajar_model->simpanNilaiRaportAfk($data);
+            }
+
         }
 
-        $data['nilai_akhir'] = $this->hasilbelajar_model->getNilaiRapot($data);
-        // print_r($na); die();
+        //End KI 1 & 2 ----------------------------
+        //=========== End nilai AFK =============================================================
 
-        
+        $data['nilai_akhir'] = $this->hasilbelajar_model->getNilaiRapot($data);
+
         $this->load->view('hasil_belajar/lck_sd_02',$data);
     }
 
