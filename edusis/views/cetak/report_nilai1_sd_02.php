@@ -116,96 +116,96 @@ function konversi_predikat($tmp)
       <td style="border:1px solid black;padding-left:10px;font-size: 11pt; text-align: middle;">
         <p style="text-align:justify;">
           <?php
-                  $i  = 1;
-                  $brs = '';
-                  if($this->uri->segment(3)!='' && $this->uri->segment(3)!='0' && $this->uri->segment(4) != '' && $this->uri->segment(4) != '0') {
-                    foreach($hasilbelajar_spr as $row) {
-                      if ($this->session->userdata('sub_pnl')=='UTS') {
-                        $arrNlAfk = array();
-                        $arrDesAfk = array();
-                        foreach($kompetensi_spr->result() as $keyKd => $rowKd) {
-                          $arrAfk = array('spr');
-                          foreach ($arrAfk as $rowAfk) {
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_uts';
-                            $hasil_nl_kd_afk = eval('return '.$nh_row.';');
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
-                            $hasil_des_kd_afk = eval('return '.$nh_row.';');
-                          }
-                          $arrNlAfk[] = $hasil_nl_kd_afk;
-                          $arrDesAfk[] = $hasil_des_kd_afk;
-                        }
-                        if (in_array("4", $arrNlAfk)) {
-                          $brs .= 'Ananda sudah terbiasa dalam ';
-                        }
-                        $arrNlMax = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '4') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                        if (in_array("1", $arrNlAfk)) {
-                          $brs .= 'mulai terlihat dalam ';
-                        }
-                        $arrNlMin = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '1') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                      } else {
-                        $arrNlAfk = array();
-                        $arrDesAfk = array();
-                        foreach($kompetensi_spr->result() as $keyKd => $rowKd) {
-                          $arrAfk = array('spr');
-                          foreach ($arrAfk as $rowAfk) {
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk;
-                            $hasil_nl_kd_afk = eval('return '.$nh_row.';');
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
-                            $hasil_des_kd_afk = eval('return '.$nh_row.';');
-                          }
-                          $arrNlAfk[] = $hasil_nl_kd_afk;
-                          $arrDesAfk[] = $hasil_des_kd_afk;
-                        }
-                        if (in_array("4", $arrNlAfk)) {
-                          $brs .= 'Ananda sudah terbiasa dalam ';
-                        }
-                        $arrNlMax = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '4') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                        if (in_array("1", $arrNlAfk)) {
-                          $brs .= 'mulai terlihat dalam ';
-                        }
-                        $arrNlMin = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '1') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                      }
-                      $i++;
-                    }
-                  }
-                  echo $brs;
-                  ?>
+                  // $i  = 1;
+                  // $brs = '';
+                  // if($this->uri->segment(3)!='' && $this->uri->segment(3)!='0' && $this->uri->segment(4) != '' && $this->uri->segment(4) != '0') {
+                  //   foreach($hasilbelajar_spr as $row) {
+                  //     if ($this->session->userdata('sub_pnl')=='UTS') {
+                  //       $arrNlAfk = array();
+                  //       $arrDesAfk = array();
+                  //       foreach($kompetensi_spr->result() as $keyKd => $rowKd) {
+                  //         $arrAfk = array('spr');
+                  //         foreach ($arrAfk as $rowAfk) {
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_uts';
+                  //           $hasil_nl_kd_afk = eval('return '.$nh_row.';');
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
+                  //           $hasil_des_kd_afk = eval('return '.$nh_row.';');
+                  //         }
+                  //         $arrNlAfk[] = $hasil_nl_kd_afk;
+                  //         $arrDesAfk[] = $hasil_des_kd_afk;
+                  //       }
+                  //       if (in_array("4", $arrNlAfk)) {
+                  //         $brs .= 'Ananda sudah terbiasa dalam ';
+                  //       }
+                  //       $arrNlMax = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '4') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //       if (in_array("1", $arrNlAfk)) {
+                  //         $brs .= 'mulai terlihat dalam ';
+                  //       }
+                  //       $arrNlMin = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '1') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //     } else {
+                  //       $arrNlAfk = array();
+                  //       $arrDesAfk = array();
+                  //       foreach($kompetensi_spr->result() as $keyKd => $rowKd) {
+                  //         $arrAfk = array('spr');
+                  //         foreach ($arrAfk as $rowAfk) {
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk;
+                  //           $hasil_nl_kd_afk = eval('return '.$nh_row.';');
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
+                  //           $hasil_des_kd_afk = eval('return '.$nh_row.';');
+                  //         }
+                  //         $arrNlAfk[] = $hasil_nl_kd_afk;
+                  //         $arrDesAfk[] = $hasil_des_kd_afk;
+                  //       }
+                  //       if (in_array("4", $arrNlAfk)) {
+                  //         $brs .= 'Ananda sudah terbiasa dalam ';
+                  //       }
+                  //       $arrNlMax = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '4') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //       if (in_array("1", $arrNlAfk)) {
+                  //         $brs .= 'mulai terlihat dalam ';
+                  //       }
+                  //       $arrNlMin = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '1') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //     }
+                  //     $i++;
+                  //   }
+                  // }
+                  // echo $brs;
+          ?>
         </p>
       </td>
     </tr>
@@ -215,97 +215,97 @@ function konversi_predikat($tmp)
       <td style="border:1px solid black;font-size: 11pt; text-align: middle;">
         <p style="text-align:justify; padding: 10px;">
           <?php
-                  $i  = 1;
-                  $brs = '';
-                  if($this->uri->segment(3)!='' && $this->uri->segment(3)!='0' && $this->uri->segment(4) != '' && $this->uri->segment(4) != '0') {
-                    foreach($hasilbelajar_sos as $row)
-                    {
-                      if ($this->session->userdata('sub_pnl')=='UTS') {
-                        $arrNlAfk = array();
-                        $arrDesAfk = array();
-                        foreach($kompetensi_sos->result() as $keyKd => $rowKd) {
-                          $arrAfk = array('sos');
-                          foreach ($arrAfk as $rowAfk) {
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_uts';
-                            $hasil_nl_kd_afk = eval('return '.$nh_row.';');
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
-                            $hasil_des_kd_afk = eval('return '.$nh_row.';');
-                          }
-                          $arrNlAfk[] = $hasil_nl_kd_afk;
-                          $arrDesAfk[] = $hasil_des_kd_afk;
-                        }
-                        if (in_array("4", $arrNlAfk)) {
-                          $brs .= 'Ananda sudah terbiasa dalam ';
-                        }
-                        $arrNlMax = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '4') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                        if (in_array("1", $arrNlAfk)) {
-                          $brs .= 'mulai terlihat dalam ';
-                        }
-                        $arrNlMin = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '1') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                      } else {
-                        $arrNlAfk = array();
-                        $arrDesAfk = array();
-                        foreach($kompetensi_sos->result() as $keyKd => $rowKd) {
-                          $arrAfk = array('sos');
-                          foreach ($arrAfk as $rowAfk) {
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk;
-                            $hasil_nl_kd_afk = eval('return '.$nh_row.';');
-                            $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
-                            $hasil_des_kd_afk = eval('return '.$nh_row.';');
-                          }
-                          $arrNlAfk[] = $hasil_nl_kd_afk;
-                          $arrDesAfk[] = $hasil_des_kd_afk;
-                        }
-                        if (in_array("4", $arrNlAfk)) {
-                          $brs .= 'Ananda sudah terbiasa dalam ';
-                        }
-                        $arrNlMax = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '4') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                        if (in_array("1", $arrNlAfk)) {
-                          $brs .= 'mulai terlihat dalam ';
-                        }
-                        $arrNlMin = array();
-                        foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
-                          foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
-                            if ($rowNaAfk == '1') {
-                              if ($keyNaAfk == $keyDesAfk) {
-                                $brs .= $rowDesAfk.', ';                          
-                              }
-                            }
-                          }
-                        }
-                      }
-                      $i++;
-                    }
-                  }
-                  echo $brs;
-                  ?>
+                  // $i  = 1;
+                  // $brs = '';
+                  // if($this->uri->segment(3)!='' && $this->uri->segment(3)!='0' && $this->uri->segment(4) != '' && $this->uri->segment(4) != '0') {
+                  //   foreach($hasilbelajar_sos as $row)
+                  //   {
+                  //     if ($this->session->userdata('sub_pnl')=='UTS') {
+                  //       $arrNlAfk = array();
+                  //       $arrDesAfk = array();
+                  //       foreach($kompetensi_sos->result() as $keyKd => $rowKd) {
+                  //         $arrAfk = array('sos');
+                  //         foreach ($arrAfk as $rowAfk) {
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_uts';
+                  //           $hasil_nl_kd_afk = eval('return '.$nh_row.';');
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
+                  //           $hasil_des_kd_afk = eval('return '.$nh_row.';');
+                  //         }
+                  //         $arrNlAfk[] = $hasil_nl_kd_afk;
+                  //         $arrDesAfk[] = $hasil_des_kd_afk;
+                  //       }
+                  //       if (in_array("4", $arrNlAfk)) {
+                  //         $brs .= 'Ananda sudah terbiasa dalam ';
+                  //       }
+                  //       $arrNlMax = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '4') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //       if (in_array("1", $arrNlAfk)) {
+                  //         $brs .= 'mulai terlihat dalam ';
+                  //       }
+                  //       $arrNlMin = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '1') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //     } else {
+                  //       $arrNlAfk = array();
+                  //       $arrDesAfk = array();
+                  //       foreach($kompetensi_sos->result() as $keyKd => $rowKd) {
+                  //         $arrAfk = array('sos');
+                  //         foreach ($arrAfk as $rowAfk) {
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk;
+                  //           $hasil_nl_kd_afk = eval('return '.$nh_row.';');
+                  //           $nh_row = '$row->'.str_replace(' ','',strtolower($rowKd->kd_kd)).'_'.$rowAfk.'_des';
+                  //           $hasil_des_kd_afk = eval('return '.$nh_row.';');
+                  //         }
+                  //         $arrNlAfk[] = $hasil_nl_kd_afk;
+                  //         $arrDesAfk[] = $hasil_des_kd_afk;
+                  //       }
+                  //       if (in_array("4", $arrNlAfk)) {
+                  //         $brs .= 'Ananda sudah terbiasa dalam ';
+                  //       }
+                  //       $arrNlMax = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '4') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //       if (in_array("1", $arrNlAfk)) {
+                  //         $brs .= 'mulai terlihat dalam ';
+                  //       }
+                  //       $arrNlMin = array();
+                  //       foreach ($arrNlAfk as $keyNaAfk => $rowNaAfk) {
+                  //         foreach ($arrDesAfk as $keyDesAfk => $rowDesAfk) {
+                  //           if ($rowNaAfk == '1') {
+                  //             if ($keyNaAfk == $keyDesAfk) {
+                  //               $brs .= $rowDesAfk.', ';                          
+                  //             }
+                  //           }
+                  //         }
+                  //       }
+                  //     }
+                  //     $i++;
+                  //   }
+                  // }
+                  // echo $brs;
+          ?>
         </p>
       </td>
     </tr>
@@ -332,87 +332,67 @@ function konversi_predikat($tmp)
         <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
       </tr>
     </thead>
-    <?php
-    //======== Nilai ===============================// 
-    if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') 
-      { 
-        $jmh_mp = $hasilbelajar->num_rows();
-
-        $kolom1 = "";
-        $kolom2 = "";
-        
-        $i  = 1;
-        foreach($nilai_akhir as $row)
-        {
-          $kel = $row['URUTAN'];
-          if($kel <= 8) 
-          {
-            $nlNa       = ($row['RFINAL']) ? $row['RFINAL'] : '0';
-            $nlNaPsk    = ($row['RFINALPSK']) ? $row['RFINALPSK'] : '0';
-            $kolom1 .= '<tr>';
-            $kolom1 .= '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$i.'</td>';
-            if($row['NMMP'] == "Pendidikan Agama Islam") {
-              $nm_mp = "Pendidikan Agama dan Budi Pekerti";
-            } elseif($row['NMMP'] == "Pendidikan Kewarganegaraan") {
-              $nm_mp = "Pendidikan Pancasila dan Kewarganegaraan";
-            } elseif($row['NMMP'] == "Pendidikan Jasmani dan Kesehatan") {
-              $nm_mp = "Pendidikan Jasmani, Olah Raga dan Kesehatan";
-            } elseif($row['NMMP'] == "Seni Budaya dan Ketrampilan") {
-              $nm_mp = "Seni Budaya dan Prakarya";
-            } else {
-              $nm_mp = $row['NMMP'];
-            }
-            $kolom1 .= '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
-            $kolom1 .= '<td align="center" style="border:1px solid black;font-size: 11pt">'.$nlNa.'</td>';
-            $kolom1 .= '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($nlNa).'</td>';
-            $kolom1 .= '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row['NADESK'].'</td>';
-
-            $kolom1 .= '<td align="center" style="border:1px solid black;font-size: 11pt">'.$nlNaPsk.'</td>';
-            $kolom1 .= '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($nlNaPsk).'</td>';
-            $kolom1 .= '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row['NADESKPSK'].'</td>';
-            $kolom1 .= '</tr>';
-              $i++;
-          }
-        }
-        
-        $j = $i;
-        foreach($nilai_akhir as $row)
-        {
-          $kel = $row['URUTAN'];
-          if($kel >= 9) 
-          {
-            $nlNa       = ($row['RFINAL']) ? $row['RFINAL'] : '0';
-            $nlNaPsk    = ($row['RFINALPSK']) ? $row['RFINALPSK'] : '0';
-            $kolom2 .= '<tr>';
-            $kolom2 .= '<td align="center" style="font-size: 11pt;border:1px solid black; height: 200px;">'.$j.'</td>';
-            $kolom2 .= '<td style="border:1px solid black;font-size: 11pt;line-height:13px;padding:5px;">'.$row['NMMP'].'</td>';
-            $kolom2 .= '<td align="center" style="border:1px solid black;font-size: 11pt">  '.$nlNa.'</td>';
-            $kolom2 .= '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($nlNa).'</td>';
-            $kolom2 .= '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row['NADESK'].'</td>';
-            $kolom2 .= '<td align="center" style="border:1px solid black;font-size: 11pt">'.$nlNaPsk.'</td>';
-            $kolom2 .= '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($nlNaPsk).'</td>';
-            $kolom2 .= '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row['NADESKPSK'].'</td>';
-            $kolom2 .= '</tr>';
-            $j++;
-          }
-        }
-      } 
-    //======= End Nilan ==========================//
-  ?>
     <tbody>
-       <?php if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
-                echo trim($kolom1);
-                if(!empty($kolom2)) {
-                echo "<tr>
-                        <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>Muatan Lokal</td>
-                      </tr>";
+       <?php 
+          if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
+            $i  = 1;
+            foreach($nilai_akhir->result() as $row)
+            {
+              $kel = $row->urutan;
+              if($kel <= 8) 
+              { 
+                echo '<tr>';
+                echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$i.'</td>';
+                if($row->nm_mp == "Pendidikan Agama Islam") {
+                  $nm_mp = "Pendidikan Agama dan Budi Pekerti";
+                } elseif($row->nm_mp == "Pendidikan Kewarganegaraan") {
+                  $nm_mp = "Pendidikan Pancasila dan Kewarganegaraan";
+                } elseif($row->nm_mp == "Pendidikan Jasmani dan Kesehatan") {
+                  $nm_mp = "Pendidikan Jasmani, Olah Raga dan Kesehatan";
+                } else {
+                  $nm_mp = $row->nm_mp;
                 }
-                echo trim($kolom2);
-              ?>
-              <?php } ?>
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->kgn.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->kgn).'</td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;"></td>';
+    
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt"></td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt"></td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;"></td>';
+                echo '</tr>';
+                $i++;
+              }
+            }
+    
+            echo "<tr>
+                    <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>Muatan Lokal</td>
+                  </tr>";
+            
+            $j  = $i+1;
+            foreach($nilai_akhir->result() as $row)
+            {
+              $kel = $row->urutan;
+              if($kel >= 9) {
+                echo '<tr>';
+                echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$j.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->kgn.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->kgn).'</td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;"></td>';
+    
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt"></td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt"></td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;"></td>';
+                echo '</tr>';
+              }
+              $j++;
+            } 
+          } 
+       ?>
     </tbody>
   </table>
   <div style="page-break-before: always;"></div>

@@ -3193,6 +3193,200 @@ class Hasilbelajar extends CI_Controller
         return $data['nilai_akhir'];
     }
 
+    function lck2($kelas=0,$nama=0)
+    {
+        $kelas=str_replace('+',' ',$kelas);
+        $data['nama_sekolah']       = $this->app_model->get_sekolah($this->session->userdata('kd_sekolah'))->nama_sekolah;
+        $data['title']              = ' | Hasil Belajar Semester';
+        $data['menu']               = $this->app_model->tampil_menu('Laporan');
+        $data['pilihkelas']         = '';
+        if($this->uri->segment(3)!='')
+        {
+            $data['pilihkelas']     = str_replace('+',' ',$this->uri->segment(3));
+        }
+        $data['pilihnis']           = '';
+        if($this->uri->segment(4)!='')
+        {
+            $data['pilihnis']       = str_replace('+',' ',$this->uri->segment(4));
+        }
+        $data['nama_pilih']         = $nama;
+        $data['kd_sekolah']         = $this->session->userdata('kd_sekolah');
+        $data['th_ajar']            = $this->session->userdata('th_ajar');
+        $data['p_nl']               = $this->session->userdata('kd_semester');
+
+        $data['pilihkelas']         = $this->input->post('skelas');//memberi nilai pilihkelas sesuai inputan pd view dropdown kelas
+        $data['kelas']              = $data['pilihkelas'];
+        $data['nis']                = $data['pilihnis'];
+        $data['tk']                 = $this->kelas_model->get($data['kelas'])->row()->tingkat;
+        $data['nama']               = $this->hasilbelajar_model->nama($data['pilihkelas']);
+        $data['skelas']             = $this->kelas_model->getfilter($this->global['th_ajar'],$this->global['kd_sekolah'],'','');
+        $data['skelas']             = $this->kelas_model->getfilterotorisasi($this->global['th_ajar'],$this->global['kd_sekolah']);
+        $data['absena']             = $this->hasilbelajar_model->getabsena($data);
+        $data['absens']             = $this->hasilbelajar_model->getabsens($data);
+        $data['abseni']             = $this->hasilbelajar_model->getabseni($data);
+        $data['pribadi']            = $this->hasilbelajar_model->getpribadi($data);
+        $data['abseina']            = $this->hasilbelajar_model->getabsena($data);
+        $data['prestasi']           = $this->prestasi_model->get_prestasi($data['nis']);
+        $data['sikap_sp_sprt']      = $this->hasilbelajar_model->get_nilai_siswa($data);
+        $data['naMin']              = '';
+        $data['naMax']              = '';
+        $data['eskul']              = $this->hasilbelajar_model->geteskul($data);
+        $tinggi_berat_badan         = $this->hasilbelajar_model->gettinggibadan($data);
+        $data['kesehatan']          = $this->hasilbelajar_model->getkesehatan($data);
+        $data['catatan_siswa']      = $this->task_model->siswa_comment($data);
+        $data['tampil']             = ($this->input->post('skelas')=='' || $this->input->post('nis')=='') ? ' ' : 'a';
+        $data['kompetensi_spr']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PAI',$data['kd_sekolah'],$data['th_ajar'],'ki1');
+        $data['kompetensi_sos']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PKN',$data['kd_sekolah'],$data['th_ajar'],'ki2');
+        $data['hasilbelajar_spr']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_spr($data);
+        $data['hasilbelajar_sos']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_sos($data);
+
+        $like_bb     = 'Berat Badan';
+        $filter_bb  = array_filter($tinggi_berat_badan, function ($item_bb) use ($like_bb) {
+            if (stripos($item_bb['nm_kesehatan'], $like_bb) !== false) {
+                return true;
+            }
+            return false;
+        });
+        $like_tb     = 'Tinggi Badan';
+        $filter_tb  = array_filter($tinggi_berat_badan, function ($item_tb) use ($like_tb) {
+            if (stripos($item_tb['nm_kesehatan'], $like_tb) !== false) {
+                return true;
+            }
+            return false;
+        });
+
+        //$data['tinggibadan']    = (!empty($filter_tb)) ? array_column($filter_tb, 'hasil', 'p_nl') : '';
+        //$data['beratbadan']     = (!empty($filter_bb)) ? array_column($filter_bb, 'hasil', 'p_nl') : '';
+
+
+        //nilai
+        $kdperKI    = $this->kompetensi_model->getKompetensiDasarPerTingkat($data);
+        $nilaiNH = array();
+        foreach ($kdperKI->result() as $kd) {
+            $data['kd_mp'] = $kd->kd_mp;
+            $data['kd_ki'] = $kd->kd_ki;
+            $data['kd_kd'] = $kd->kd_kd;
+            if($data['kd_ki'] == "ki3" || $data['kd_ki'] == "KI3") {
+                $nhKDMP   = $this->hasilbelajar_model->getNHperKDMP($data)->result();
+                $nilai['kd_mp'] = $nhKDMP[0]->kd_mp;
+                $nilai['nh']   = $nhKDMP[0]->nh;
+                
+                $nilaiNH[$nilai['kd_mp']][] = $nhKDMP[0];
+                // print_r($nilai['kd_mp'].' - '.$nhKDMP[0]->kd_kd.' - '.$nilai['nh']); 
+            }
+        }
+
+
+        $naKdPerMp = array();
+        foreach ($nilaiNH as $rows) {
+            for ($i=0; $i < count($rows); $i++) {
+                $data['kd_mp'] = $rows[$i]->kd_mp;
+                $data['kd_kd'] = $rows[$i]->kd_kd;
+                $data['nh'] = $rows[$i]->nh;
+
+                //Get Nilai UAS per KD
+                $pasKDMP   = $this->hasilbelajar_model->getPASperKDMP($data)->result();
+
+                //Rumus Nilai Raport
+                $naPerKd = round(((2 * $data['nh']) + $pasKDMP[0]->pas_kgn) / 3);
+                $naKdPerMp[$data['kd_mp']][$data['kd_kd']] = $naPerKd;
+            }
+        }
+
+        //Nilai NH Rata-rata
+        $na = array();
+        $nlKdArr = array();
+        foreach ($naKdPerMp as $mp=>$nlKd) {
+            $na[$mp] = array_sum($nlKd) / count($naKdPerMp[$mp]);
+            $nlKdArr[$mp] = $nlKd;
+        }
+        
+
+        foreach($na as $keyMp=>$valNa) {
+            $data['kd_mp_rpt']  = $keyMp;
+
+            //Deskripsi
+            // foreach($nlKdArr as $keyKd=>$nlKd) {
+            //     //get kkm
+            //     $getKkmMp   = $this->hasilbelajar_model->getKkmMp($data)->row();
+            //     $getKkm    = $getKkmMp->skbm;
+
+            //     //ambil nilai maksimal
+            //     $nlValMax = max($nlKd);
+            //     $nlValMin = min($nlKd);
+            //     // print_r($nlKd); die();
+
+            //     //bandingkan nilai maksimal dengan kkm
+            //     $nlMax = 0;
+            //     $nlMin = 0;
+            //     if($nlValMax >= $getKkm) {
+            //         //cari KD yang sesuai dengan nilai maksimal
+            //         $nlMax = array_keys($nlKd, max($nlKd));
+
+            //         //cari deskripsi maksimal
+            //         $ketKdMaxArr = array();
+            //         for ($i=0; $i < count($nlMax); $i++) {
+            //             $data['kd_ki']      = 'ki3';
+            //             $data['kd_max_min'] = $nlMax[$i];
+
+            //             $getDeskripsi    = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
+            //             $ketKdMaxArr[]   = $getDeskripsi->ket_kd;
+            //         }
+            //         $ketKdMax = implode(', ',$ketKdMaxArr);
+            //     }
+
+            //     if($nlValMin < $getKkm) {
+            //         // print_r($data['kd_mp_rpt'].' '.$nlValMin.' < '.$getKkm); die();
+            //         //cari KD yang sesuai dengan nilai minimal
+            //         $nlMin = array_keys($nlKd, min($nlKd));
+
+            //         //cari deskripsi minimal
+            //         $ketKdMinArr = array();
+            //         for ($i=0; $i < count($nlMin); $i++) {
+            //             $data['kd_ki'] = 'ki3';
+            //             $data['kd_max_min'] = $nlMin[$i];
+
+            //             $getDeskripsi   = $this->hasilbelajar_model->getDeskripsiKD($data)->row();
+            //             $ketKdMinArr[]  = $getDeskripsi->ket_kd;
+            //         }
+            //         $ketKdMin = implode(', ',$ketKdMinArr);
+            //     }
+
+            //     //Susun deskripsi
+            //     if($nlMax!=0 && $nlMin!=0) {
+            //         $ketKgn = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam'.$ketKdMin;
+            //     } elseif($nlMax!=0 && $nlMin==0) {
+            //         $ketKgn = 'Ananda mampu '.$ketKdMax;
+            //     } elseif($nlMax==0 && $nlMin!=0) {
+            //         $ketKgn = 'perlu pembinaan dalam'.$ketKdMin;
+            //     } else {
+            //         $ketKgn = '';
+            //     }
+            // }
+
+            //simpan nilai raport
+            $data['kd_mp'] = $keyMp;
+            $data['kgn']   = $valNa;
+            // $data['deskripsi_kgn']   = $ketKgn;
+
+            $sdata = $this->hasilbelajar_model->dapat($data);              
+            if($sdata->num_rows() > 0)
+            {
+                    $this->hasilbelajar_model->updateNilaiRaport($data);
+            }
+            else
+            {
+                    $this->hasilbelajar_model->simpanNilaiRaport($data);
+            }
+        }
+
+        $data['nilai_akhir'] = $this->hasilbelajar_model->getNilaiRapot($data);
+        // print_r($na); die();
+
+        
+        $this->load->view('hasil_belajar/lck_sd_02',$data);
+    }
+
     function lck_deskripsi($kelas=0,$nama=0)
     {
         $kelas=str_replace('+',' ',$kelas);

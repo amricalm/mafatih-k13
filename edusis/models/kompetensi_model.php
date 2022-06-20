@@ -172,6 +172,29 @@ class Kompetensi_model extends CI_Model
         
         return $hasil;
     }
+
+    function getKompetensiDasarPerTingkat($data)
+    {
+        $CI             = &get_instance();
+        $kd_sekolah     = $CI->session->userdata('kd_sekolah');
+        $th_ajar        = $CI->session->userdata('th_ajar');
+        $kd_semester    = $CI->session->userdata('kd_semester');
+        $tk             = $data['tk'];
+
+        $sql       ="SELECT dtl.kd_mp, kd_ki, kd_kd, ket_kd FROM ms_mp_kd_dtl dtl
+                    LEFT JOIN ms_mp mp
+                    ON dtl.kd_mp = mp.kd_mp
+                    where dtl.kd_sekolah  = '$kd_sekolah'
+                    and dtl.th_ajar     = '$th_ajar'
+                    and dtl.kd_semester = '$kd_semester'
+                    and dtl.tk          = '$tk'";
+        $sql       .= "order by mp.urutan";
+        
+        $hasil      = $this->db->query($sql);
+        
+        return $hasil;
+    }
+
     function getKompetensiDasarForNl($kd_sk,$kd_semester,$tk,$jn,$kd_mp,$kd_sekolah,$th_ajar)
     {
         $sql       =" select dtl.* 

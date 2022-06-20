@@ -1134,25 +1134,14 @@ class Export extends CI_Controller
         //$data['tinggibadan']    = (!empty($filter_tb)) ? array_column($filter_tb, 'hasil', 'p_nl') : '';
         //$data['beratbadan']     = (!empty($filter_bb)) ? array_column($filter_bb, 'hasil', 'p_nl') : '';
 
-        foreach($data['datasiswa']->result() as $row)
-        {
-         $data['nm_lngkp'] = $row->nama_lengkap;
-        }
-        $data['nilai_akhir'] = array();
-        $seq                 = 0;
-        foreach ($data['hasilbelajar']->result() as $row) {
-            $data['nilai_akhir'][$seq] = $this->nilai_raport($row->kd_mp, $row->nm_mp, $row->urutan);
-            $seq++;
-            // if ($seq == 1) {
-            //   break;
-            // }
-        } 
+        $data['nilai_akhir'] = $this->hasilbelajar_model->getNilaiRapot($data);
+
+        $profile = $this->siswa_model->getprofile($data)->row();
+        $data['nm_lngkp'] = $profile->nama_lengkap;
+
 
       $html = $this->load->view('cetak/report_nilai1_sd_02',$data,true);
-      //$html = "test";
       $this->to_pdf->pdf_create($html, 'RAPORT '.$data['nm_lngkp'],true,'a4','potrait');
-      // echo $html;
-
 	}
 
     function nilai_raport($kd_mp, $nm_mp, $urutan)
