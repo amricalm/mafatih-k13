@@ -1,6 +1,4 @@
-<html>
-<head>
-<link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/cetak.css" />
+<html><head><link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/cetak.css" />
 <link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/print.css" />
 <title>Raport</title>
 <!-- WRITE YOUR CSS CODE HERE -->
@@ -59,9 +57,7 @@ function konversi_predikat($tmp)
 	}
   @page { margin: 15px 10px; } body { margin: 15px 10px; }
 </style>
-</head>
-<body>
-<div class="wrapper">
+</head><body><div class="wrapper">
   <div style="text-align: center; font-weight: bold;">
     <?php
         echo "<h3>RAPOR DAN PROFIL PESERTA DIDIK</h3>";
@@ -147,9 +143,8 @@ function konversi_predikat($tmp)
     </tr>
   </table>
   <table align="center" width="95%" style="font-family: 'Arial', sans-serif;border-collapse: collapse">
-    <thead style="text-transform: none;">
       <tr style="text-align:center; background-color: #d3d3d3;">
-        <td rowspan="2" style="border:1px solid black;font-size: 11pt; height:52.913385827px; width: 6%; background-color: #d3d3d3;">No</td>
+        <td rowspan="2" style="border:1px solid black;font-size: 11pt; height:100px; width: 6%; background-color: #d3d3d3;">No</td>
         <td rowspan="2" style="border:1px solid black; font-size: 11pt; width: 20%; background-color: #d3d3d3;">Muatan<br>Pelajaran</td>
         <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Pengetahuan</td>
         <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Keterampilan</td>
@@ -162,15 +157,14 @@ function konversi_predikat($tmp)
         <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
         <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
       </tr>
-    </thead>
-    <tbody>
+    
        <?php 
           if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
             $i  = 1;
             foreach($nilai_akhir->result() as $row)
             {
               $kel = $row->urutan;
-              if($kel <= 8) 
+              if($kel == 1) 
               { 
                 echo '<tr>';
                 echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$i.'</td>';
@@ -195,21 +189,42 @@ function konversi_predikat($tmp)
                 $i++;
               }
             }
-    
-            echo "<tr>
-                    <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>Muatan Lokal</td>
-                  </tr>";
-            
-            $j  = $i+1;
+          }
+       ?>
+  </table>
+  <div style="page-break-before: always;"></div>
+  <table align="center" width="95%" style="font-family: 'Arial', sans-serif;border-collapse: collapse">
+      <tr style="always; text-align:center; background-color: #d3d3d3;">
+        <td rowspan="2" style="border:1px solid black;font-size: 11pt; height:52.913385827px; width: 6%; background-color: #d3d3d3;">No</td>
+        <td rowspan="2" style="border:1px solid black; font-size: 11pt; width: 20%; background-color: #d3d3d3;">Muatan<br>Pelajaran</td>
+        <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Pengetahuan</td>
+        <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Keterampilan</td>
+      </tr>
+      <tr style="text-align:center; background-color: #d3d3d3;">
+        <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+      </tr>
+       <?php 
+          if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
+            $j  = 2;
             foreach($nilai_akhir->result() as $row)
             {
               $kel = $row->urutan;
-              if($kel >= 9) {
+              if($kel >= 2 && $kel <= 4) 
+              { 
                 echo '<tr>';
                 echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$j.'</td>';
+                if($row->nm_mp == "Pendidikan Kewarganegaraan") {
+                  $nm_mp = "Pendidikan Pancasila dan Kewarganegaraan";
+                } elseif($row->nm_mp == "Pendidikan Jasmani dan Kesehatan") {
+                  $nm_mp = "Pendidikan Jasmani, Olah Raga dan Kesehatan";
+                } else {
+                  $nm_mp = $row->nm_mp;
+                }
                 echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
                 echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->kgn.'</td>';
                 echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->kgn).'</td>';
@@ -219,12 +234,155 @@ function konversi_predikat($tmp)
                 echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->psk).'</td>';
                 echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_psk.'</td>';
                 echo '</tr>';
+                $j++;
               }
-              $j++;
-            } 
-          } 
+            }
+          }
        ?>
-    </tbody>
+  </table>
+  <div style="page-break-before: always;"></div>
+  <table align="center" width="95%" style="font-family: 'Arial', sans-serif;border-collapse: collapse">
+      <tr style="always; text-align:center; background-color: #d3d3d3;">
+        <td rowspan="2" style="border:1px solid black;font-size: 11pt; height:52.913385827px; width: 6%; background-color: #d3d3d3;">No</td>
+        <td rowspan="2" style="border:1px solid black; font-size: 11pt; width: 20%; background-color: #d3d3d3;">Muatan<br>Pelajaran</td>
+        <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Pengetahuan</td>
+        <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Keterampilan</td>
+      </tr>
+      <tr style="text-align:center; background-color: #d3d3d3;">
+        <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+      </tr>
+    
+       <?php 
+          if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
+            $j  = 5;
+            foreach($nilai_akhir->result() as $row)
+            {
+              $kel = $row->urutan;
+              if($kel >= 5 && $kel <= 7) 
+              { 
+                echo '<tr>';
+                echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$j.'</td>';
+                if($row->nm_mp == "Pendidikan Kewarganegaraan") {
+                  $nm_mp = "Pendidikan Pancasila dan Kewarganegaraan";
+                } elseif($row->nm_mp == "Pendidikan Jasmani dan Kesehatan") {
+                  $nm_mp = "Pendidikan Jasmani, Olah Raga dan Kesehatan";
+                } else {
+                  $nm_mp = $row->nm_mp;
+                }
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->kgn.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->kgn).'</td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_kgn.'</td>';
+    
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->psk.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->psk).'</td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_psk.'</td>';
+                echo '</tr>';
+                $j++;
+              }
+            }
+          }
+       ?>
+  </table>
+  <div style="page-break-before: always;"></div>
+  <table align="center" width="95%" style="font-family: 'Arial', sans-serif;border-collapse: collapse">
+      <tr style="always; text-align:center; background-color: #d3d3d3;">
+        <td rowspan="2" style="border:1px solid black;font-size: 11pt; height:52.913385827px; width: 6%; background-color: #d3d3d3;">No</td>
+        <td rowspan="2" style="border:1px solid black; font-size: 11pt; width: 20%; background-color: #d3d3d3;">Muatan<br>Pelajaran</td>
+        <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Pengetahuan</td>
+        <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Keterampilan</td>
+      </tr>
+      <tr style="text-align:center; background-color: #d3d3d3;">
+        <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+        <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+      </tr>
+       <?php 
+          if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
+            $j  = 8;
+            foreach($nilai_akhir->result() as $row)
+            {
+              $kel = $row->urutan;
+              if($kel == 8) 
+              { 
+                echo '<tr>';
+                echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$j.'</td>';
+                if($row->nm_mp == "Pendidikan Kewarganegaraan") {
+                  $nm_mp = "Pendidikan Pancasila dan Kewarganegaraan";
+                } elseif($row->nm_mp == "Pendidikan Jasmani dan Kesehatan") {
+                  $nm_mp = "Pendidikan Jasmani, Olah Raga dan Kesehatan";
+                } else {
+                  $nm_mp = $row->nm_mp;
+                }
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->kgn.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->kgn).'</td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_kgn.'</td>';
+    
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->psk.'</td>';
+                echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->psk).'</td>';
+                echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_psk.'</td>';
+                echo '</tr>';
+                $j++;
+              }
+            }
+          }
+       ?>
+  </table>
+  <table align="center" width="95%" style="font-family: 'Arial', sans-serif;border-collapse: collapse">
+       <?php
+        if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') {
+          echo "<tr>
+                <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>&nbsp;</td>
+                </tr>
+                <tr>
+                <td colspan='8' style='font-size: 11pt; font-weight: bold; padding: 5px;'>Muatan Lokal</td>
+                </tr>";
+        ?>
+        <tr style="text-align:center; background-color: #d3d3d3;">
+          <td rowspan="2" style="border:1px solid black;font-size: 11pt; height:52.913385827px; width: 6%; background-color: #d3d3d3;">No</td>
+          <td rowspan="2" style="border:1px solid black; font-size: 11pt; width: 20%; background-color: #d3d3d3;">Muatan<br>Pelajaran</td>
+          <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Pengetahuan</td>
+          <td colspan="3" style="border:1px solid black;font-size: 11pt; background-color: #d3d3d3; width: 25%;">Keterampilan</td>
+        </tr>
+        <tr style="text-align:center; background-color: #d3d3d3;">
+          <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+          <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+          <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+          <td style="border:1px solid black;font-size: 11pt; width: 4%; background-color: #d3d3d3;">Nilai</td>
+          <td style="border:1px solid black;font-size: 11pt; width: 8%; background-color: #d3d3d3;">Predikat</td>
+          <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
+        </tr>
+        <?php
+          $l  = 9;
+          foreach($nilai_akhir->result() as $row)
+          {
+            $kel = $row->urutan;
+            if($kel >= 9) {
+              echo '<tr>';
+              echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$l.'</td>';
+              echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
+              echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->kgn.'</td>';
+              echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->kgn).'</td>';
+              echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_kgn.'</td>';
+
+              echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->psk.'</td>';
+              echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->psk).'</td>';
+              echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_psk.'</td>';
+              echo '</tr>';
+              $l++;
+            }
+          }
+        }
+       ?>
   </table>
   <div style="page-break-before: always;"></div>
 <?php if ($sub_pnl == 'UTS') { ?>
@@ -284,7 +442,7 @@ function konversi_predikat($tmp)
   <?php } else { ?>
   <!-- <div style="page-break-before: always;"></div> -->
    <table style="margin-top:10px;border-collapse:collapse;width: 95%; font-family: 'Arial', sans-serif;" align="center">
-    <thead style="text-transform: none;">
+    
       <tr>
         <td style="font-weight: bold;font-size: 11pt;padding: 10px 2px 10px 0;width:0.8%;">C.</td>
         <td style="font-weight: bold;font-size: 11pt;padding: 10px 0px;" colspan="2">Ekstra Kurikuler</td>
@@ -294,8 +452,7 @@ function konversi_predikat($tmp)
         <th style="padding:10px 0;border:1px solid black;font-size:1em/1.5;width:40.3%; background-color: #d3d3d3;">Kegiatan Ekstra Kurikuler</th>
         <th style="border:1px solid black;font-size:1em/1.5; background-color: #d3d3d3;">Keterangan</th>
       </tr>
-    </thead>
-    <tbody>
+
       <?php
         $ii = 1;
         foreach($eskul->result() as $row)
@@ -329,7 +486,6 @@ function konversi_predikat($tmp)
         //   echo '</tr>';
         // }
       ?>
-    </tbody>
   </table>
   <table style="border-collapse:collapse;width: 95%; font-family: 'Arial', sans-serif;margin-top:10px;" align="center">
     <tr>
@@ -357,7 +513,6 @@ function konversi_predikat($tmp)
   </table>
 
   <!-- <table style="border-collapse:collapse;width: 95%; font-family: 'Arial', sans-serif;" align="center">
-    <thead style="text-transform: none;">
       <tr>
         <td style="font-weight: bold;font-size: 11pt;padding: 10px 2px 10px 0;width:0.8%;">E.</td>
         <td style="font-weight: bold;font-size: 11pt;padding: 10px 0px;" colspan="3">Tinggi dan Berat Badan</td>
@@ -371,8 +526,6 @@ function konversi_predikat($tmp)
         <th style="height:18px; border:1px solid black;font-size:1em/1.5;background-color: #d3d3d3;">1</th>
         <th style="border:1px solid black;font-size:1em/1.5;background-color: #d3d3d3;">2</th>
       </tr>
-    </thead>
-    <tbody>
       <?php /* if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') {
             echo '<tr style= width:50%;>';
             
@@ -433,11 +586,10 @@ function konversi_predikat($tmp)
             echo '</tr>';
         } */
       ?>
-    </tbody>
   </table> -->
 
   <table style="border-collapse:collapse;width: 95%; font-family: 'Arial', sans-serif;" align="center">
-    <thead style="text-transform: none;">
+   
       <tr>
         <td style="font-weight: bold;font-size: 11pt;padding: 10px 2px 10px 0;width:0.8%;">E.</td>
         <td style="font-weight: bold;font-size: 11pt;padding: 10px 0px;" colspan="2">Kondisi Kesehatan</td>
@@ -447,8 +599,7 @@ function konversi_predikat($tmp)
         <th style="padding:10px 0;border:1px solid black;font-size:1em/1.5;width:40.3%;background-color: #d3d3d3;">Aspek fisik</th>
         <th style="border:1px solid black;font-size:1em/1.5;background-color: #d3d3d3;">Keterangan</th>
       </tr>
-    </thead>
-    <tbody>
+
       <?php if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') {
           $i = 1;
           foreach($kesehatan->result() as $row)
@@ -464,11 +615,9 @@ function konversi_predikat($tmp)
           }
         }
       ?>
-    </tbody>
   </table>
 
  <!--  <table style="margin-top:10px;border-collapse:collapse;width: 95%; font-family: 'Arial', sans-serif;" align="center">
-    <thead style="text-transform: none;">
       <tr>
         <td colspan="3" style="font-weight: bold;font-size: 11pt;padding-bottom:15px;">G. Prestasi</td>
       </tr>
@@ -477,8 +626,6 @@ function konversi_predikat($tmp)
         <td style="border:1px solid black;width:40%;font-weight: bold;font-size: 11pt;">Jenis Prestasi</td>
         <td style="border:1px solid black;font-weight: bold;font-size: 11pt;">Keterangan</td>
       </tr>
-    </thead>
-    <tbody>
       <?php
         $seq = 1;
         foreach($prestasi->result() as $row)
@@ -512,7 +659,6 @@ function konversi_predikat($tmp)
           echo "</tr>";
         }
       ?>
-    </tbody>
   </table> -->
   <table style="width: 95%; font-family: 'Arial', sans-serif;margin-top:10px; border-collapse: collapse;" align="center">
     <tr>
@@ -657,6 +803,4 @@ function konversi_predikat($tmp)
 		<td colspan="5" style="font-size: 11pt;text-align: center;"><span style="text-decoration: underline;"><?php echo $kepsek->row()->nama_lengkap;?></span><br />NIP. <?php echo $kepsek->row()->nip; ?></td>
 	</tr>
   </table>
-</div>
-</body>
-</html>
+</div></body></html>

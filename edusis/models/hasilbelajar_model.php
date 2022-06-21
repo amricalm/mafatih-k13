@@ -5016,13 +5016,20 @@ class Hasilbelajar_model extends CI_Model
       $p_nl           = $CI->session->userdata('kd_semester');
       $kelas          = $data['pilihkelas'];
       $nis            = $data['pilihnis'];
-      $sql =   " SELECT nm_mp, ips.kgn, ips.psk, ips.afk, deskripsi_kgn, deskripsi_psk, deskripsi_afk, deskripsi_afk_spiritual, urutan FROM nl_ips ips
+      $sql =   " SELECT nm_mp, ips.kgn, ips.psk, ips.afk, deskripsi_kgn, deskripsi_psk, deskripsi_afk, deskripsi_afk_spiritual, urutan
+                  FROM ms_mp_kelas kls
+                  JOIN nl_ips ips
+                  ON kls.`kd_sekolah` = ips.kd_sekolah
+                  AND kls.`th_ajar` = ips.th_ajar
+                  AND kls.`semester` = ips.p_nl 
+                  AND kls.`kd_mp` = ips.`kd_mp`
+                  AND kls.kelas = ips.`kelas`
                   LEFT JOIN ms_mp mp
                   ON ips.kd_mp = mp.kd_mp
-                  where ips.kd_sekolah = '$kd_sekolah'
-                  and ips.th_ajar = '$th_ajar' 
-                  and ips.p_nl = '$p_nl'
-                  and ips.kelas = '$kelas'
+                  where kls.kd_sekolah = '$kd_sekolah'
+                  and kls.th_ajar = '$th_ajar' 
+                  and kls.semester = '$p_nl'
+                  and kls.kelas = '$kelas'
                   and ips.nis = '$nis'
                   ORDER BY urutan ASC";
       $query = $this->db->query($sql); 

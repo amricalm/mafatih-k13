@@ -1,6 +1,4 @@
-<html>
-<head>
-	<link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/cetak.css" /> 
+<html><head><link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/cetak.css" /> 
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/print.css" /><!-- WRITE YOUR CSS CODE HERE -->
 	<title>Identitas Peserta Didik</title>
 	<style>
@@ -9,9 +7,7 @@
 	}
 	}
 </style>
-</head>
-<body>
-<table border="0" align="center" style="padding:0px;" width="80%;" cellpadding="0">
+</head><body><table border="0" align="center" style="padding:0px;" width="80%;" cellpadding="0">
 	<tr>
 		<td colspan="4">&nbsp;</td>
 	</tr>
@@ -270,6 +266,4 @@
             <td align="center">NIP.<?php echo $kepsek->row()->nip;  ?></td>
         </tr>
     </table></td></tr>
-</table>
-</body>
-</html>
+</table></body></html>

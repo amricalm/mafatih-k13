@@ -1,6 +1,4 @@
-<html>
-<head>
-<link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/cetak.css" />
+<html><head><link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/cetak.css" />
 <link rel="stylesheet" media="screen,projection" type="text/css" href="<?php echo base_url() ?>edusis_asset/css/print.css" /><!-- WRITE YOUR CSS CODE HERE -->
 <title>SAMPUL RAPORT</title>
 <style>
@@ -9,9 +7,7 @@
 	}
 	}
 </style>
-</head>
-<body>
-<table width="100%" border="0" align="center" cellpadding="3" style="padding-top: 70px;">
+</head><body><table width="100%" border="0" align="center" cellpadding="3" style="padding-top: 70px;">
     <tr>
         <td align="center" style="font-size: 24px; font-weight: bold;">LAPORAN HASIL BELAJAR SISWA</td>
     </tr>
@@ -84,6 +80,4 @@
     <tr>
         <td align="center" style="font-size: 20px;" ><b>BEKASI - JAWA BARAT</b></td>
     </tr>
-</table>
-</body>
-</html>
+</table></body></html>

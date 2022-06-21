@@ -3263,23 +3263,27 @@ class Hasilbelajar extends CI_Controller
         $kdperKI    = $this->kompetensi_model->getKompetensiDasarPerTingkat($data);
         $nilaiNH = array();
         $nilaiKin = array();
-        foreach ($kdperKI->result() as $kd) {
+        foreach ((array) $kdperKI->result() as $kd) {
             $data['kd_mp'] = $kd->kd_mp;
             $data['kd_ki'] = $kd->kd_ki;
             $data['kd_kd'] = $kd->kd_kd;
             if($data['kd_ki'] == "ki3" || $data['kd_ki'] == "KI3") {
                 $nhKDMP   = $this->hasilbelajar_model->getNHperKDMP($data)->result();
-                $nilai['kd_mp'] = $nhKDMP[0]->kd_mp;
-                $nilai['nh']   = $nhKDMP[0]->nh;
-                
-                $nilaiNH[$nilai['kd_mp']][] = $nhKDMP[0];
+                if(count($nhKDMP) > 0) {
+                    $nilai['kd_mp'] = $nhKDMP[0]->kd_mp;
+                    $nilai['nh']   = $nhKDMP[0]->nh;
+
+                    $nilaiNH[$nilai['kd_mp']][] = $nhKDMP[0];
+                }
             } 
             elseif($data['kd_ki'] == "ki4" || $data['kd_ki'] == "KI4") {
-                $nhKDMP   = $this->hasilbelajar_model->getKinperKDMP($data)->result();
-                $nilai['kd_mp'] = $nhKDMP[0]->kd_mp;
-                $nilai['kin']   = $nhKDMP[0]->kin;
-                
-                $nilaiKin[$nilai['kd_mp']][] = $nhKDMP[0];
+                $kinKDMP   = $this->hasilbelajar_model->getKinperKDMP($data)->result();
+                if(count($kinKDMP) > 0) {
+                    $nilai['kd_mp'] = $kinKDMP[0]->kd_mp;
+                    $nilai['kin']   = $kinKDMP[0]->kin;
+                    
+                    $nilaiKin[$nilai['kd_mp']][] = $kinKDMP[0];
+                }
             }
         }
         
@@ -3287,7 +3291,7 @@ class Hasilbelajar extends CI_Controller
         //End KI 3 --------------------------------
         //KI 3 --------------------------------
         $naKdPerMp = array();
-        foreach ($nilaiNH as $rows) {
+        foreach ((array) $nilaiNH as $rows) {
             for ($i=0; $i < count($rows); $i++) {
                 $data['kd_mp'] = $rows[$i]->kd_mp;
                 $data['kd_kd'] = $rows[$i]->kd_kd;
@@ -3306,14 +3310,14 @@ class Hasilbelajar extends CI_Controller
         //Nilai NH Rata-rata
         $na = array();
         $nlKdArr = array();
-        foreach ($naKdPerMp as $mp=>$nlKd) {
+        foreach ((array) $naKdPerMp as $mp=>$nlKd) {
             $na[$mp] = round(array_sum($nlKd) / count($naKdPerMp[$mp]));
             $nlKdArr[$mp] = $nlKd;
         }
         //End KI 3 --------------------------------
         //KI 3 --------------------------------
         $k = 0;
-        foreach($na as $keyMp=>$valNa) {
+        foreach((array) $na as $keyMp=>$valNa) {
             //Deskripsi
             $ketKgn = '';
             for($l=0; $l < count($nlKdArr[$keyMp]); $l++) {
@@ -3363,11 +3367,11 @@ class Hasilbelajar extends CI_Controller
                 }
                 //Susun deskripsi
                 if($nlMax!=0 && $nlMin!=0) {
-                    $ketKgn = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam'.$ketKdMin;
+                    $ketKgn = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam '.$ketKdMin;
                 } elseif($nlMax!=0 && $nlMin==0) {
                     $ketKgn = 'Ananda mampu '.$ketKdMax;
                 } elseif($nlMax==0 && $nlMin!=0) {
-                    $ketKgn = 'perlu pembinaan dalam'.$ketKdMin;
+                    $ketKgn = 'Ananda perlu pembinaan dalam '.$ketKdMin;
                 } else {
                     $ketKgn = '';
                 }
@@ -3397,7 +3401,7 @@ class Hasilbelajar extends CI_Controller
         //=========== nilai PSK =============================================================
         //KI 4--------------------------
         $naKdPerMpPsk = array();
-        foreach ($nilaiKin as $rows) {
+        foreach ((array) $nilaiKin as $rows) {
             for ($i=0; $i < count($rows); $i++) {
                 $data['kd_mp'] = $rows[$i]->kd_mp;
                 $data['kd_kd'] = $rows[$i]->kd_kd;
@@ -3416,13 +3420,13 @@ class Hasilbelajar extends CI_Controller
         //Nilai NH Rata-rata
         $naPsk = array();
         $nlKdArrPsk = array();
-        foreach ($naKdPerMpPsk as $mp=>$nlKd) {
+        foreach ((array) $naKdPerMpPsk as $mp=>$nlKd) {
             $naPsk[$mp] = round(array_sum($nlKd) / count($naKdPerMpPsk[$mp]));
             $nlKdArrPsk[$mp] = $nlKd;
         }
         //End KI 4--------------------------
         //KI 4--------------------------
-        foreach($naPsk as $keyMp=>$valNa) {
+        foreach((array) $naPsk as $keyMp=>$valNa) {
             //Deskripsi
             $ketPsk = '';
             for($l=0; $l < count($nlKdArrPsk[$keyMp]); $l++) {
@@ -3472,11 +3476,11 @@ class Hasilbelajar extends CI_Controller
                 }
                 //Susun deskripsi
                 if($nlMax!=0 && $nlMin!=0) {
-                    $ketPsk = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam'.$ketKdMin;
+                    $ketPsk = 'Ananda mampu '.$ketKdMax.' perlu pembinaan dalam '.$ketKdMin;
                 } elseif($nlMax!=0 && $nlMin==0) {
                     $ketPsk = 'Ananda mampu '.$ketKdMax;
                 } elseif($nlMax==0 && $nlMin!=0) {
-                    $ketPsk = 'perlu pembinaan dalam'.$ketKdMin;
+                    $ketPsk = 'Ananda perlu pembinaan dalam '.$ketKdMin;
                 } else {
                     $ketPsk = '';
                 }
@@ -3505,7 +3509,7 @@ class Hasilbelajar extends CI_Controller
         //=========== nilai AFK =============================================================
         //KI 1 & 2--------------------------
         $kdTghPsk = ['PAI'=>'SPR','PKN'=>'SOS'];
-        foreach($kdTghPsk as $keyTghPsk=>$valTghPsk) {
+        foreach((array) $kdTghPsk as $keyTghPsk=>$valTghPsk) {
             $data['kdMpPsk']  = $keyTghPsk;
             $data['kdTghPsk'] = $valTghPsk;
             if($keyTghPsk == 'PAI') {
@@ -3519,7 +3523,7 @@ class Hasilbelajar extends CI_Controller
             $ketMaxArr = array();
             $ketMinArr = array();
             $nlAfkArr  = 0;
-            foreach($getSpr as $rows) {
+            foreach((array) $getSpr as $rows) {
                 $nlAfkArr += $rows->afk;
                 if($rows->afk >= 4) {
                     $ketMaxArr[] = $rows->ket_kd;
@@ -3534,11 +3538,11 @@ class Hasilbelajar extends CI_Controller
             $ketMin = !empty($ketMinArr) ? implode(', ',$ketMinArr) : '';
 
             if($ketMax!='' && $ketMin!='') {
-                $data['deskripsi_afk'] = 'Ananda sudah terbiasa dalam'.$ketMax.'mulai terlihat dalam'.$ketMin;
+                $data['deskripsi_afk'] = 'Ananda sudah terbiasa dalam '.$ketMax.' mulai terlihat dalam '.$ketMin;
             }elseif($ketMax!='' && $ketMin=='') {
-                $data['deskripsi_afk'] = 'Ananda sudah terbiasa dalam'.$ketMax;
+                $data['deskripsi_afk'] = 'Ananda sudah terbiasa dalam '.$ketMax;
             }elseif($ketMax=='' && $ketMin!='') {
-                $data['deskripsi_afk'] = 'Ananda mulai terlihat dalam'.$ketMin;
+                $data['deskripsi_afk'] = 'Ananda mulai terlihat dalam '.$ketMin;
             }elseif($ketMax=='' && $ketMin=='') {
                 $data['deskripsi_afk'] = '';
             }

@@ -328,11 +328,24 @@ function konversi_predikat($tmp)
                     echo '<td align="center" style="border:1px solid #cfcfcf;font-size: 0.8em/1.5">'.konversi_predikat($row->psk).'</td>';
                     echo '<td align="left" style="font-size: 0.8em/1.5;border:1px solid #cfcfcf; padding-left: 5px; text-align: justify;">'.$row->deskripsi_psk.'</td>';
                     echo '</tr>';
-                  } elseif($kel >= 9) {
-                    $bg = ($i%2==0) ? ' class="bg" ' : '';
+                  } elseif($kel == 9) {
                     echo "<tr>
                           <td colspan='8' style='border:1px solid #a9a9a9; padding:10px; font-size: 0.8em/1.5; background-color: #0088ff; font-weight: bold; color: white;'>Muatan Lokal</td>
                         </tr>";
+                    $bg = ($i%2==0) ? ' class="bg" ' : '';
+                    echo '<tr'.$bg.'>';
+                    echo '<td align="center" style="font-size: 0.8em/1.5;border:1px solid #cfcfcf;">'.$i.'</td>';
+                    echo '<td style="border:1px solid #cfcfcf;font-size: 0.8em/1.5;line-height:13px;padding:5px;">'.$row->nm_mp.'</td>';
+                    echo '<td align="center" style="border:1px solid #cfcfcf;font-size: 0.8em/1.5">'.$row->kgn.'</td>';
+                    echo '<td align="center" style="border:1px solid #cfcfcf;font-size: 0.8em/1.5">'.konversi_predikat($row->kgn).'</td>';
+                    echo '<td align="left" style="font-size: 0.8em/1.5;border:1px solid #cfcfcf; padding-left: 5px; text-align: justify;">'.$row->deskripsi_kgn.'</td>';
+        
+                    echo '<td align="center" style="border:1px solid #cfcfcf;font-size: 0.8em/1.5">'.$row->psk.'</td>';
+                    echo '<td align="center" style="border:1px solid #cfcfcf;font-size: 0.8em/1.5">'.konversi_predikat($row->psk).'</td>';
+                    echo '<td align="left" style="font-size: 0.8em/1.5;border:1px solid #cfcfcf; padding-left: 5px; text-align: justify;">'.$row->deskripsi_psk.'</td>';
+                    echo '</tr>';
+                  } elseif($kel >= 10) {
+                    $bg = ($i%2==0) ? ' class="bg" ' : '';
                     echo '<tr'.$bg.'>';
                     echo '<td align="center" style="font-size: 0.8em/1.5;border:1px solid #cfcfcf;">'.$i.'</td>';
                     echo '<td style="border:1px solid #cfcfcf;font-size: 0.8em/1.5;line-height:13px;padding:5px;">'.$row->nm_mp.'</td>';
