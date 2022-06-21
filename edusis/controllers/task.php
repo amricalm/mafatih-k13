@@ -624,7 +624,7 @@ class Task extends CI_Controller
         $app['kd_tagihan']             = $data['kd_tagihan'];
         $app['kd_kd']                  = $data['kd_kd'];
 
-        $semuatask              = $data['rows'];
+        $semuatask                  = $data['rows'];
         $result                     = "";
         for($i=0;$i<count($semuatask);$i++)
         {
@@ -645,9 +645,8 @@ class Task extends CI_Controller
            }
         }
 
-        $result                     = json_decode($result);
+        $result = json_decode($result);
         echo $result;
-
     }
 
     function simpan_from_ajax()

@@ -546,6 +546,7 @@ class Task_model extends CI_Model
         $this->db->where('sub_pnl',$data['sub_pnl']);
         $this->db->where('nis',$data['nis']);
         $this->db->where('kelas',$data['kelas']);
+        $this->db->where('kd_mp',$data['kd_mp']);
         $this->db->where('kd_tagihan',$data['kd_tagihan']);
         $this->db->where('kd_kd',$data['kd_kd']);
 
