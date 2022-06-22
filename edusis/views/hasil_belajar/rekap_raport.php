@@ -112,7 +112,7 @@ function konversi_predikat($tmp)
 <div id="content" class="box">
     <h1>REKAP RAPORT</h1>
 <div id="tab01">
-    <form action="<?php echo base_url().'index.php/hasilbelajar/rekap_nilai4' ?>" method="POST" id="frmhasilbelajar">
+    <form action="<?php echo base_url().'index.php/hasilbelajar/rekap_nilai5' ?>" method="POST" id="frmhasilbelajar">
     <!--atur pd (edusis_system/helpers/form_helper.php)function form_hidden, dg menambahkan (id="'.$name.'")-->
     <?php echo form_hidden('myurl',site_url('hasilbelajar')) ?>
     <!--table filter-->
@@ -144,7 +144,7 @@ function konversi_predikat($tmp)
             </td>
             <td align="right" width="">
             <?php if($this->uri->segment(3)!='' && $this->uri->segment(3)!='0') { ?>
-            <a href="<?php echo base_url().'index.php/export/export_pengetahuan_k13_to_pdf/'.$this->uri->segment(3).'/'.$this->uri->segment(4); ?>" id="tombol_pdf" title="Print Ledger <?php $q=($this->session->userdata('sub_pnl')=='UTS') ? 'UTS' : 'UAS'; echo $q; ?>" class="small button blue"><img src="<?php echo base_url(); ?>edusis_asset/edusisimg/pdf.png" /></a>
+            <!-- <a href="<?php echo base_url().'index.php/export/export_pengetahuan_k13_to_pdf/'.$this->uri->segment(3).'/'.$this->uri->segment(4); ?>" id="tombol_pdf" title="Print Ledger <?php $q=($this->session->userdata('sub_pnl')=='UTS') ? 'UTS' : 'UAS'; echo $q; ?>" class="small button blue"><img src="<?php echo base_url(); ?>edusis_asset/edusisimg/pdf.png" /></a> -->
             <?php } ?>
             </td>
         </tr>
@@ -162,9 +162,9 @@ function konversi_predikat($tmp)
       
           <?php
             $seq_mp       = 0;
-            foreach($nilai_akhir[$seq_mp] as $row)
+            foreach($getmapel->result() as $row)
             {
-              echo '<th width="8%" colspan="2"><a href="#" class="namalengkap" title="" style="color:white; text-decoration: none;text-transform:upercase;">'.$row['KDMP'].'</a></th>';
+              echo '<th width="8%"><a href="#" class="namalengkap" title="" style="color:white; text-decoration: none;text-transform:upercase;">'.$row->kd_mp.'</a></th>';
               $seq_mp++;
             }
             echo '<th>JUMLAH</th>';
@@ -173,7 +173,7 @@ function konversi_predikat($tmp)
         </tr>
         <?php
           $i        = 1;
-          $keys     = array_keys($nilai_akhir);
+          // $keys     = array_keys($nilai_akhir);
           foreach ($siswa_kgn->result() as $siswa) {
             $bg = ($i%2==0) ? ' class="bg" ' : '';
             echo '<tr'.$bg.'>';
@@ -181,11 +181,14 @@ function konversi_predikat($tmp)
             echo '<td>'.$siswa->nis.'</td>';
             echo '<td>'.$siswa->nama_lengkap.'</td>';
             $jmh    = 0;
-            foreach ($nilai_akhir[$keys[$i]] as $key => $value) {
-                echo '<td align="center">'.$value['RFINALKGN'].'</td>';
-                echo '<td align="center">'.konversi_predikat($value['RFINALKGN']).'</td>';
-                // echo '<td align="center">'.$value['NADESK'].'</td>';
-                $jmh+= $value['RFINALKGN'];
+            foreach($getmapel->result() as $rowMp) {
+              foreach ($getnilai as $rowNl) {
+                if($rowMp->kd_mp == $rowNl->kd_mp && $rowNl->nis == $siswa->nis) {
+                    echo '<td align="center">'.$rowNl->kgn.'</td>';
+                    // echo '<td align="center">'.konversi_predikat($rowNl->kgn).'</td>';
+                    $jmh+= $rowNl->kgn;
+                }
+              }
             }
             $rataNl = ($seq_mp!=0) ? $jmh / $seq_mp : '';
             echo '<td align="center">'.$jmh.'</td>';
@@ -205,9 +208,9 @@ function konversi_predikat($tmp)
       
           <?php
             $seq_mp       = 0;
-            foreach($nilai_akhir_psk[$seq_mp] as $row)
+            foreach($getmapel->result() as $row)
             {
-              echo '<th width="8%" colspan="2"><a href="#" class="namalengkap" title="" style="color:white; text-decoration: none;text-transform:upercase;">'.$row['KDMP'].'</a></th>';
+              echo '<th width="8%"><a href="#" class="namalengkap" title="" style="color:white; text-decoration: none;text-transform:upercase;">'.$row->kd_mp.'</a></th>';
               $seq_mp++;
             }
             echo '<th>JUMLAH</th>';
@@ -216,7 +219,7 @@ function konversi_predikat($tmp)
         </tr>
         <?php
           $j        = 1;
-          $keys     = array_keys($nilai_akhir_psk);
+          // $keys     = array_keys($nilai_akhir_psk);
           foreach ($siswa_psk->result() as $siswa) {
             $bg = ($j%2==0) ? ' class="bg" ' : '';
             echo '<tr'.$bg.'>';
@@ -224,11 +227,14 @@ function konversi_predikat($tmp)
             echo '<td>'.$siswa->nis.'</td>';
             echo '<td>'.$siswa->nama_lengkap.'</td>';
             $jmh    = 0;
-            foreach ($nilai_akhir_psk[$keys[$j]] as $key => $value) {
-                echo '<td align="center">'.$value['RFINALKGN'].'</td>';
-                echo '<td align="center">'.konversi_predikat($value['RFINALKGN']).'</td>';
-                // echo '<td align="center">'.$value['NADESK'].'</td>';
-                $jmh+= $value['RFINALKGN'];
+            foreach($getmapel->result() as $rowMp) {
+              foreach ($getnilai as $rowNl) {
+                if($rowMp->kd_mp == $rowNl->kd_mp && $rowNl->nis == $siswa->nis) {
+                    echo '<td align="center">'.$rowNl->psk.'</td>';
+                    // echo '<td align="center">'.konversi_predikat($rowNl->psk).'</td>';
+                    $jmh+= $rowNl->psk;
+                }
+              }
             }
             $rataNl = ($seq_mp!=0) ? $jmh / $seq_mp : '';
             echo '<td align="center">'.$jmh.'</td>';

@@ -111,7 +111,7 @@ function konversi_predikat($tmp)
 <div id="content" class="box">
     <h1>Rapor</h1>
 <div id="tab01">
-    <form action="<?php echo base_url().'index.php/hasilbelajar/lck2' ?>" method="POST" id="frmhasilbelajar">
+    <form action="<?php echo base_url().'index.php/hasilbelajar/lck' ?>" method="POST" id="frmhasilbelajar">
     <!--atur pd (edusis_system/helpers/form_helper.php)function form_hidden, dg menambahkan (id="'.$name.'")-->
     <?php echo form_hidden('myurl',site_url('hasilbelajar')) ?>
     <!--table filter-->

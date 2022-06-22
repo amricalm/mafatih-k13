@@ -1573,10 +1573,35 @@ class Hasilbelajar extends CI_Controller
         // END PSK =================================================================================
         $this->load->view('hasil_belajar/rekap_raport',$data);
     }
+
     function rekap_nilai5($kelas=0)
     {
+        $kelas=str_replace('+',' ',$kelas);
+        $data['nama_sekolah']       = $this->app_model->get_sekolah($this->session->userdata('kd_sekolah'))->nama_sekolah;
+        $data['title']              = ' | Rekap Hasil Belajar Semester';
+        $data['menu']               = $this->app_model->tampil_menu('Laporan');
+        $data['pilihkelas']         = '';
+        if($this->uri->segment(3)!='')
+        {
+            $data['pilihkelas']     = str_replace('+',' ',$this->uri->segment(3));
+        }
+        $data['siswa_kgn']          = $this->hasilbelajar_model->nama($data['pilihkelas']);
+        $data['siswa_psk']          = $this->hasilbelajar_model->nama($data['pilihkelas']);
+        $data['mp_kelas']           = $this->hasilbelajar_model->mp_kelas($data['pilihkelas']);
+        $data['kd_sekolah']         = $this->session->userdata('kd_sekolah');
+        $data['th_ajar']            = $this->session->userdata('th_ajar');
+        $data['p_nl']               = $this->session->userdata('kd_semester');
+        $data['tampil']             = ($data['pilihkelas'] =='' || $data['pilihkelas'] =='0') ? '' : 'a';
+        $data['pilihkelas']         = $this->input->post('skelas');//memberi nilai pilihkelas sesuai inputan pd view dropdown kelas
+        $data['skelas']             = $this->kelas_model->getfilter($this->global['th_ajar'],$this->global['kd_sekolah'],'','');
+        $data['skelas']             = $this->kelas_model->getfilterotorisasi($this->global['th_ajar'],$this->global['kd_sekolah']);
+        
+        $data['getmapel']           = $this->hasilbelajar_model->getrekap($data['pilihkelas']);
+        $data['getnilai']           = $this->hasilbelajar_model->getrekapnilai($data['pilihkelas'])->result();
 
+        $this->load->view('hasil_belajar/rekap_raport',$data);
     }
+
     function hitung_nilai($kelas,$filter_mp, $filter_mp_pts, $filter_mp_pas, $kd_mp)
     {
         // $data['kelas']              = $kelas;
@@ -2835,7 +2860,7 @@ class Hasilbelajar extends CI_Controller
           $this->load->view('hasil_belajar/ledger_sikap_sma_k13', $data);
     }
 
-    function lck($kelas=0,$nama=0)
+    function lckMSSQL($kelas=0,$nama=0)
     {
         $kelas=str_replace('+',' ',$kelas);
         $data['nama_sekolah']       = $this->app_model->get_sekolah($this->session->userdata('kd_sekolah'))->nama_sekolah;
@@ -3197,7 +3222,7 @@ class Hasilbelajar extends CI_Controller
         return $data['nilai_akhir'];
     }
 
-    function lck2($kelas=0,$nama=0)
+    function lck($kelas=0,$nama=0)
     {
         $kelas=str_replace('+',' ',$kelas);
         $data['nama_sekolah']       = $this->app_model->get_sekolah($this->session->userdata('kd_sekolah'))->nama_sekolah;

@@ -5052,10 +5052,36 @@ class Hasilbelajar_model extends CI_Model
                             and kls.kelas = '$kelas'
                             and kls.semester = '$p_nl'
                             order by mp.urutan asc";
-        //echo $sql; die();
+        // echo $sql; die();
         $hasil      = $this->db->query($sql);
         return $hasil;
     }
+
+    function getrekapnilai($kelas)
+    {
+        $CI             = &get_instance();
+        $kd_sekolah     = $CI->session->userdata('kd_sekolah');
+        $th_ajar        = $CI->session->userdata('th_ajar');
+        $p_nl           = $CI->session->userdata('kd_semester');
+        $sub_pnl        = $CI->session->userdata('sub_pnl');
+
+        $sql            = " SELECT DISTINCT ips.nis, ips.kd_mp, ips.kgn, ips.psk
+                            FROM nl_ips ips
+                            RIGHT JOIN ms_mp_kelas kls
+                            ON ips.kd_sekolah = kls.kd_sekolah
+                            AND ips.th_ajar = kls.th_ajar
+                            AND ips.p_nl = kls.semester
+                            AND ips.kelas = kls.kelas
+                            AND ips.kd_mp = kls.kd_mp
+                            where kls.kd_sekolah = '$kd_sekolah'
+                            and kls.th_ajar = '$th_ajar'
+                            and kls.kelas = '$kelas'
+                            and kls.semester = '$p_nl'";
+        // echo $sql; die();
+        $hasil      = $this->db->query($sql);
+        return $hasil;
+    }
+
     function get_comment_predikat($data)
     {
       $CI             = &get_instance();
