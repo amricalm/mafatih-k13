@@ -1573,6 +1573,10 @@ class Hasilbelajar extends CI_Controller
         // END PSK =================================================================================
         $this->load->view('hasil_belajar/rekap_raport',$data);
     }
+    function rekap_nilai5($kelas=0)
+    {
+
+    }
     function hitung_nilai($kelas,$filter_mp, $filter_mp_pts, $filter_mp_pas, $kd_mp)
     {
         // $data['kelas']              = $kelas;
@@ -2874,11 +2878,11 @@ class Hasilbelajar extends CI_Controller
         $data['kesehatan']          = $this->hasilbelajar_model->getkesehatan($data);
         $data['catatan_siswa']      = $this->task_model->siswa_comment($data);
         $data['tampil']             = ($this->input->post('skelas')=='' || $this->input->post('nis')=='') ? ' ' : 'a';
-        $data['kompetensi_spr']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PAI',$data['kd_sekolah'],$data['th_ajar'],'ki1');
-        $data['kompetensi_sos']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PKN',$data['kd_sekolah'],$data['th_ajar'],'ki2');
-        $data['hasilbelajar_spr']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_spr($data);
-        $data['hasilbelajar_sos']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_sos($data);
-        $data['hasilbelajar']       = $this->hasilbelajar_model->getkpa2($data);
+        // $data['kompetensi_spr']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PAI',$data['kd_sekolah'],$data['th_ajar'],'ki1');
+        // $data['kompetensi_sos']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PKN',$data['kd_sekolah'],$data['th_ajar'],'ki2');
+        // $data['hasilbelajar_spr']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_spr($data);
+        // $data['hasilbelajar_sos']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_sos($data);
+        // $data['hasilbelajar']       = $this->hasilbelajar_model->getkpa2($data);
 
         $like_bb     = 'Berat Badan';
         $filter_bb  = array_filter($tinggi_berat_badan, function ($item_bb) use ($like_bb) {
@@ -2900,15 +2904,15 @@ class Hasilbelajar extends CI_Controller
 
 
 
-        $data['nilai_akhir'] = array();
-        $seq                 = 0;
-        foreach ($data['hasilbelajar']->result() as $row) {
-            $data['nilai_akhir'][$seq] = $this->nilai_raport($row->kd_mp, $row->nm_mp, $row->urutan);
-            $seq++;
-            // if ($seq == 1) {
-            //   break;
-            // }
-        }
+        // $data['nilai_akhir'] = array();
+        // $seq                 = 0;
+        // foreach ($data['hasilbelajar']->result() as $row) {
+        //     $data['nilai_akhir'][$seq] = $this->nilai_raport($row->kd_mp, $row->nm_mp, $row->urutan);
+        //     $seq++;
+        //     // if ($seq == 1) {
+        //     //   break;
+        //     // }
+        // }
         
         $this->load->view('hasil_belajar/lck_sd_02',$data);
     }
@@ -3235,10 +3239,10 @@ class Hasilbelajar extends CI_Controller
         $data['kesehatan']          = $this->hasilbelajar_model->getkesehatan($data);
         $data['catatan_siswa']      = $this->task_model->siswa_comment($data);
         $data['tampil']             = ($this->input->post('skelas')=='' || $this->input->post('nis')=='') ? ' ' : 'a';
-        $data['kompetensi_spr']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PAI',$data['kd_sekolah'],$data['th_ajar'],'ki1');
-        $data['kompetensi_sos']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PKN',$data['kd_sekolah'],$data['th_ajar'],'ki2');
-        $data['hasilbelajar_spr']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_spr($data);
-        $data['hasilbelajar_sos']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_sos($data);
+        // $data['kompetensi_spr']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PAI',$data['kd_sekolah'],$data['th_ajar'],'ki1');
+        // $data['kompetensi_sos']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PKN',$data['kd_sekolah'],$data['th_ajar'],'ki2');
+        // $data['hasilbelajar_spr']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_spr($data);
+        // $data['hasilbelajar_sos']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_sos($data);
 
         $like_bb     = 'Berat Badan';
         $filter_bb  = array_filter($tinggi_berat_badan, function ($item_bb) use ($like_bb) {

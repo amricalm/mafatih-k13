@@ -1111,11 +1111,11 @@ class Export extends CI_Controller
         $data['tgl_lhb']            = $this->app_model->get_tgl_lhb();
         $data['prestasi']           = $this->prestasi_model->get_prestasi($data['nis']);
         $data['df_mp']              = $this->mp_model->get_mpotorisasi($this->global['kd_sekolah']);
-        $data['kompetensi_spr']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PAI',$data['kd_sekolah'],$data['th_ajar'],'ki1');
-        $data['kompetensi_sos']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PKN',$data['kd_sekolah'],$data['th_ajar'],'ki2');
-        $data['hasilbelajar_spr']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_spr($data);
-        $data['hasilbelajar_sos']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_sos($data);
-        $data['hasilbelajar']       = $this->hasilbelajar_model->getkpa2($data);
+        // $data['kompetensi_spr']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PAI',$data['kd_sekolah'],$data['th_ajar'],'ki1');
+        // $data['kompetensi_sos']     = $this->kompetensi_model->get_kompetensi('',$data['p_nl'],$data['tk'],'PKN',$data['kd_sekolah'],$data['th_ajar'],'ki2');
+        // $data['hasilbelajar_spr']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_spr($data);
+        // $data['hasilbelajar_sos']   = $this->hasilbelajar_model->nilai_rapor_sikap_k13_sos($data);
+        // $data['hasilbelajar']       = $this->hasilbelajar_model->getkpa2($data);
 
         $like_bb     = 'Berat Badan';
         $filter_bb  = array_filter($tinggi_berat_badan, function ($item_bb) use ($like_bb) {
@@ -1139,8 +1139,11 @@ class Export extends CI_Controller
         $profile = $this->siswa_model->getprofile($data)->row();
         $data['nm_lngkp'] = $profile->nama_lengkap;
 
-
-      $html = $this->load->view('cetak/report_nilai1_sd_02',$data,true);
+        if($data['kelas'] == 'I') {
+            $html = $this->load->view('cetak/report_nilai1_sd_01',$data,true);
+        } else {
+            $html = $this->load->view('cetak/report_nilai1_sd_02',$data,true);
+        }
       $this->to_pdf->pdf_create($html, 'RAPORT '.$data['nm_lngkp'],true,'a4','potrait');
 	}
 

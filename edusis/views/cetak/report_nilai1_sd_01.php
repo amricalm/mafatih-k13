@@ -214,7 +214,7 @@ function konversi_predikat($tmp)
             foreach($nilai_akhir->result() as $row)
             {
               $kel = $row->urutan;
-              if($kel >= 2 && $kel <= 4) 
+              if($kel >= 2 && $kel <= 3) 
               { 
                 echo '<tr>';
                 echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$j.'</td>';
@@ -259,11 +259,11 @@ function konversi_predikat($tmp)
     
        <?php 
           if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
-            $k  = 5;
+            $k  = 4;
             foreach($nilai_akhir->result() as $row)
             {
               $kel = $row->urutan;
-              if($kel >= 5 && $kel <= 7) 
+              if($kel >= 4 && $kel <= 6) 
               { 
                 echo '<tr>';
                 echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$k.'</td>';
@@ -307,11 +307,11 @@ function konversi_predikat($tmp)
       </tr>
        <?php 
           if($this->uri->segment(3) != '' && $this->uri->segment(3) != '0' && $this->uri->segment(4) !='' && $this->uri->segment(4) !='0') { 
-            $l  = 8;
+            $l  = 6;
             foreach($nilai_akhir->result() as $row)
             {
               $kel = $row->urutan;
-              if($kel == 8) 
+              if($kel >= 7 && $kel <= 8) 
               { 
                 echo '<tr>';
                 echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$l.'</td>';
@@ -362,21 +362,14 @@ function konversi_predikat($tmp)
           <td style="border:1px solid black;font-size: 11pt; width: 40%; background-color: #d3d3d3;">Deskripsi</td>
         </tr>
         <?php
-          $m  = 9;
+          $m  = 8;
           foreach($nilai_akhir->result() as $row)
           {
             $kel = $row->urutan;
             if($kel >= 9) {
               echo '<tr>';
               echo '<td align="center" style="font-size: 11pt;border:1px solid black; height: 250px;">'.$m.'</td>';
-              if($row->nm_mp == "Pendidikan Kewarganegaraan") {
-                $nm_mp = "Pendidikan Pancasila dan Kewarganegaraan";
-              } elseif($row->nm_mp == "Pendidikan Jasmani dan Kesehatan") {
-                $nm_mp = "Pendidikan Jasmani, Olah Raga dan Kesehatan";
-              } else {
-                $nm_mp = $row->nm_mp;
-              }
-              echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$nm_mp.'</td>';
+              echo '<td align="center" style="border:1px solid black;font-size: 11pt;line-height:13px;">'.$row->nm_mp.'</td>';
               echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.$row->kgn.'</td>';
               echo '<td align="center" style="border:1px solid black;font-size: 11pt">'.konversi_predikat($row->kgn).'</td>';
               echo '<td align="left" style="font-size: 11pt;border:1px solid black; padding-left: 5px; text-align: justify;">'.$row->deskripsi_kgn.'</td>';
